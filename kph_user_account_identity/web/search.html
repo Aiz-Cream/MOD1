@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Search | KameraPH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/kph.css">
+  <link rel="stylesheet" href="css/module.css">
+  <!-- keeps the light/dark choice without a flash -->
+  <script>try{var t=localStorage.getItem("kph-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <style>
+    .search-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .search-count { color: var(--muted); font-size: 14px; }
+    .empty-state { text-align: center; padding: 48px 16px; color: var(--muted); }
+    .empty-state p { margin: 0 0 12px; }
+  </style>
+</head>
+<body>
+<!-- ===== KAMERAPH HEADER (copy as is, do not edit) ===== -->
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="kph-topbar">
+  <div class="kph-topbar-inner">
+    <span>Free Shipping on orders over ₱2,000</span>
+    <div class="kph-topbar-mid hide-mobile">
+      <span>100% Authentic Product</span>
+      <span>1 Year Warranty</span>
+      <span>Easy Return</span>
+    </div>
+    <span class="hide-mobile">Need Help? 0999 999 9999</span>
+  </div>
+</div>
+<header class="kph-header">
+  <div class="kph-header-inner">
+    <a class="kph-logo" href="#" aria-label="KameraPH home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </a>
+    <nav class="kph-nav" id="kph-nav" aria-label="Main"></nav>
+    <div class="kph-search" id="kph-search">
+      <form id="kph-search-form" role="search">
+        <input type="search" placeholder="Search cameras, lenses, accessories" aria-label="Search">
+        <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      </form>
+    </div>
+    <div class="kph-icons">
+      <button class="icon-btn only-mobile" id="kph-search-toggle" type="button" aria-label="Open search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <button class="icon-btn" id="kph-theme-toggle" type="button" aria-label="Switch between light and dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <a class="icon-btn" data-kph-link="account" href="#" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+      <a class="icon-btn" data-kph-link="wishlist" href="#" aria-label="Wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg><span class="dot" hidden></span></a>
+      <a class="icon-btn" data-kph-link="cart" href="#" aria-label="Cart"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg><span class="dot" hidden></span></a>
+    </div>
+  </div>
+</header>
+<!-- ===== END HEADER ===== -->
+
+<main id="main" class="container stack">
+
+  <div class="search-head">
+    <h2 class="section-title" id="searchTitle">Search</h2>
+    <span class="search-count" id="searchCount"></span>
+  </div>
+
+  <!-- Loading state -->
+  <div id="loading" class="card" style="text-align:center;padding:48px;color:var(--muted)">Loading products...</div>
+
+  <!-- Error state -->
+  <div id="error" hidden class="card empty-state">
+    <p>Unable to load products.</p>
+    <a href="home.html" class="btn btn-outline btn-sm">Back to home</a>
+  </div>
+
+  <!-- Empty state -->
+  <div id="empty" hidden class="card empty-state">
+    <p id="emptyMsg">No products found.</p>
+    <a href="home.html" class="btn btn-outline btn-sm">Back to home</a>
+  </div>
+
+  <!-- Results -->
+  <div id="results" class="grid" hidden></div>
+
+</main>
+
+<!-- ===== KAMERAPH FOOTER (copy as is, do not edit) ===== -->
+<footer class="kph-footer">
+  <div class="kph-footer-inner">
+    <div class="kph-logo">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </div>
+    <p class="kph-footer-note only-mobile">Your one-stop shop for professional gear.</p>
+    <p class="kph-footer-copy">© 2026 KameraPH. All rights reserved.</p>
+  </div>
+</footer>
+<!-- ===== END FOOTER ===== -->
+
+<script src="js/config.js?v=3"></script>
+<script src="js/api.js?v=3"></script>
+<script src="js/kph-ui.js?v=3"></script>
+<script src="js/demo.js?v=3"></script>
+<script src="js/catalog.js?v=1"></script>
+<script src="js/cart.js?v=3"></script>
+<script src="js/store.js?v=1"></script>
+<script src="js/activity.js?v=1"></script>
+<script>
+  // If a picture file is missing, show the grey "Photo" box instead of a broken image
+  document.addEventListener("error", function (e) {
+    var img = e.target;
+    if (img.tagName !== "IMG") return;
+    if (img.closest(".pc-img")) img.replaceWith("Photo"); else img.remove();
+  }, true);
+
+  function photo(p) {
+    return p.image ? '<img src="' + escapeHtml(p.image) + '" alt="' + escapeHtml(p.name) + '" loading="lazy">' : "Photo";
+  }
+
+  var HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>';
+
+  function productCard(p) {
+    var old = p.oldPrice ? '<span class="pc-old-price">' + escapeHtml(formatPeso(p.oldPrice)) + "</span>" : "";
+    var soldOut = p.inStock === false;
+    var note = soldOut ? '<span class="pc-old-price">Out of stock</span>' : "";
+    return `
+      <article class="product-card" data-id="${escapeHtml(p.id)}">
+        <button class="pc-heart${KPHDemo.inWishlist(p.id) ? " active" : ""}" type="button" aria-label="Add to wishlist">${HEART}</button>
+        <div class="pc-img">${photo(p)}</div>
+        <div class="pc-name">${escapeHtml(p.name)}</div>
+        <div><span class="pc-price">${escapeHtml(formatPeso(p.price))}</span>${old}${note}</div>
+        <div class="rating">${KPHProducts.ratingHtml(p)}</div>
+        <button class="btn btn-block btn-sm" type="button" data-add ${soldOut ? "disabled" : ""}>${soldOut ? "Out of stock" : "Add to Cart"}</button>
+      </article>`;
+  }
+
+  var resultsEl = document.getElementById("results");
+  var loadingEl = document.getElementById("loading");
+  var errorEl = document.getElementById("error");
+  var emptyEl = document.getElementById("empty");
+  var emptyMsg = document.getElementById("emptyMsg");
+  var titleEl = document.getElementById("searchTitle");
+  var countEl = document.getElementById("searchCount");
+
+  var params = new URLSearchParams(window.location.search);
+  var q = (params.get("q") || "").trim();
+  var category = (params.get("category") || "").trim();
+
+  var ALL = [];
+  var CATEGORY_NAMES = {};
+
+  function showError() {
+    loadingEl.hidden = true;
+    emptyEl.hidden = true;
+    resultsEl.hidden = true;
+    errorEl.hidden = false;
+  }
+
+  function render(list) {
+    loadingEl.hidden = true;
+    ALL = list;
+
+    var label = category ? (CATEGORY_NAMES[category] || category) : "";
+    titleEl.textContent = q
+      ? 'Search results for "' + q + '"' + (label ? " in " + label : "")
+      : (label ? label : "All products");
+    countEl.textContent = list.length + (list.length === 1 ? " product" : " products");
+
+    if (list.length === 0) {
+      errorEl.hidden = true;
+      resultsEl.hidden = true;
+      emptyEl.hidden = false;
+      emptyMsg.textContent = q
+        ? 'No products found for "' + q + '". Try another search.'
+        : (label ? "No products in " + label + " yet." : "No products available.");
+      return;
+    }
+
+    errorEl.hidden = true;
+    emptyEl.hidden = true;
+    resultsEl.hidden = false;
+    resultsEl.innerHTML = list.map(productCard).join("");
+  }
+
+  // Wishlist hearts, Add to Cart (real API), and recently-viewed.
+  document.addEventListener("click", function (e) {
+    var heart = e.target.closest(".pc-heart");
+    if (heart) {
+      var hp = ALL.find(function (p) { return String(p.id) === heart.closest(".product-card").dataset.id; });
+      if (hp) heart.classList.toggle("active", KPHDemo.toggleWishlist(hp));
+      return;
+    }
+
+    var addBtn = e.target.closest("[data-add]");
+    if (addBtn) {
+      var card = addBtn.closest(".product-card");
+      var product = ALL.find(function (p) { return String(p.id) === card.dataset.id; });
+      if (product && window.KPHCart) {
+        KPHCart.addAndSync(product, 1).then(function (view) {
+          if (window.KPHUI) KPHUI.setBadge("cart", (view && view.count) || 0);
+          if (window.KPHActivity) KPHActivity.track("cart_added", "product", product.id, "Added to cart", { product_id: product.id, quantity: 1 });
+        }).catch(function (err) {
+          alert(err && err.message ? err.message : "Could not add to cart.");
+        });
+      }
+      return;
+    }
+
+    var view = e.target.closest(".pc-img, .pc-name");
+    if (view) {
+      var vp = ALL.find(function (p) { return String(p.id) === view.closest(".product-card").dataset.id; });
+      if (vp) {
+        KPHDemo.recordView(vp);
+        if (window.KPHActivity) KPHActivity.track("product_viewed", "product", vp.id, "Viewed " + vp.name, { product_id: vp.id, category_slug: vp.category || null });
+      }
+    }
+  });
+
+  async function load() {
+    try {
+      var cats = await KPHStore.categories();
+      cats.forEach(function (c) { CATEGORY_NAMES[c.slug] = c.name; });
+      var list = await KPHStore.products({ category: category || null, q: q || null });
+      if (window.KPHActivity && q) {
+        KPHActivity.track("product_searched", "search", null, 'Searched "' + q + '"', {
+          query: q,
+          category_slug: category || null,
+          result_count: list.length
+        });
+      }
+      render(list);
+    } catch (err) {
+      showError();
+    }
+  }
+
+  load();
+  KPHDemo.syncBadges();
+</script>
+</body>
+</html>

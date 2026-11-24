@@ -1,0 +1,13 @@
+CONNECT TO AZURE - SAFE VERSION
+===============================
+We do NOT change the shared database (kph-database). The script creates our own
+database "kph_ecommerce" on the same Azure server and links to the shared
+account tables (user, role, user_role, verification_token) with read-through views.
+
+1. Copy both folders to C:\xampp\htdocs\Final-Project-main\ (side by side).
+2. Start Apache (MySQL not needed). Your IP must be allowed in Azure > MySQL > Networking.
+3. Double-click RUN_AZURE_SETUP.bat ONCE (safe to run again).
+   It should end with "DONE". Copy any "NOTE:" lines if you want me to check them.
+4. Log in again (admin / seller / buyer demo accounts) and test.
+
+Do NOT push config\config.local.php or config\ssl to GitHub.

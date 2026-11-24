@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Analytics | KameraPH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/kph.css">
+  <link rel="stylesheet" href="css/module.css">
+  <script>try{var t=localStorage.getItem("kph-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<!-- ===== KAMERAPH HEADER (copy as is, do not edit) ===== -->
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="kph-topbar">
+  <div class="kph-topbar-inner">
+    <span>Free Shipping on orders over ₱2,000</span>
+    <div class="kph-topbar-mid hide-mobile">
+      <span>100% Authentic Product</span>
+      <span>1 Year Warranty</span>
+      <span>Easy Return</span>
+    </div>
+    <span class="hide-mobile">Need Help? 0999 999 9999</span>
+  </div>
+</div>
+<header class="kph-header">
+  <div class="kph-header-inner">
+    <a class="kph-logo" href="#" aria-label="KameraPH home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </a>
+    <nav class="kph-nav" id="kph-nav" aria-label="Main"></nav>
+    <div class="kph-search" id="kph-search">
+      <form id="kph-search-form" role="search">
+        <input type="search" placeholder="Search cameras, lenses, accessories" aria-label="Search">
+        <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      </form>
+    </div>
+    <div class="kph-icons">
+      <button class="icon-btn only-mobile" id="kph-search-toggle" type="button" aria-label="Open search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <button class="icon-btn" id="kph-theme-toggle" type="button" aria-label="Switch between light and dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <a class="icon-btn" data-kph-link="account" href="#" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+      <a class="icon-btn" data-kph-link="wishlist" href="#" aria-label="Wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg><span class="dot" hidden></span></a>
+      <a class="icon-btn" data-kph-link="cart" href="#" aria-label="Cart"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg><span class="dot" hidden></span></a>
+    </div>
+  </div>
+</header>
+<!-- ===== END HEADER ===== -->
+
+<main id="main" class="container stack">
+  <h2 class="section-title" id="page-title">Analytics &amp; Recommendations</h2>
+  <p class="muted" id="page-sub"></p>
+  <div id="gate" hidden class="card"><p>Please log in to see your analytics.</p><a href="login.html" class="btn btn-primary">Log in</a></div>
+
+  <!-- CUSTOMER: what a shopper cares about -->
+  <section id="sec-customer" hidden class="stack">
+    <div id="cust-summary" class="stat-grid"></div>
+    <div class="card table-wrap"><h4>Your interests</h4><p class="muted">What your clicks, wishlists and carts say you like. Only you can see this.</p><div id="cust-interests"></div></div>
+    <div><h3>Recommended for you</h3><div id="cust-rec" class="grid"></div></div>
+    <div><h3>Customers like you also viewed</h3><div id="cust-also" class="grid"></div></div>
+    <div><h3>Still in your cart</h3><div id="cust-abandoned" class="grid"></div></div>
+    <div><h3>Recently viewed</h3><div id="cust-recent" class="grid"></div></div>
+    <div><h3>Popular right now</h3><div id="cust-trending" class="grid"></div></div>
+  </section>
+
+  <!-- SELLER: how my products are doing -->
+  <section id="sec-seller" hidden class="stack">
+    <div id="seller-summary" class="stat-grid"></div>
+    <div><h3>Your most viewed products</h3><div id="seller-top" class="grid"></div></div>
+    <div class="card table-wrap"><h4>What shoppers are interested in</h4><p class="muted">Brands and categories that customers keep viewing, wishlisting or carting on your products.</p><div id="seller-interests"></div></div>
+    <div class="card table-wrap"><h4>Product performance</h4><p class="muted">Views, wishlists, carts and orders per product. Many views but few carts usually means the price, photos or description need work.</p><div id="seller-perf"></div></div>
+    <div><h3>Carts shoppers left behind</h3><p class="muted">Customers added these to a cart but did not check out.</p><div id="seller-cart" class="grid"></div></div>
+    <div><h3>Shoppers also looked at (competition &amp; upsell ideas)</h3><div id="seller-rec" class="grid"></div></div>
+  </section>
+
+  <!-- ADMIN: platform-wide, in depth -->
+  <section id="sec-admin" hidden class="stack">
+    <div id="admin-summary" class="stat-grid"></div>
+    <div class="card"><h4>Shopping funnel</h4><div id="admin-funnel"></div></div>
+    <div class="card table-wrap"><h4>Daily trend (last 14 days)</h4><div id="admin-daily"></div></div>
+    <div class="card table-wrap"><h4>Customer interests across the platform</h4><p class="muted">Behavior turned into conclusions: e.g. repeated Fujifilm views = "interested in Fujifilm cameras".</p><div id="admin-interests"></div></div>
+    <div class="card table-wrap"><h4>Seller leaderboard</h4><div id="admin-sellers"></div></div>
+    <div class="card table-wrap"><h4>Product performance (platform)</h4><div id="admin-perf"></div></div>
+    <div><h3>Most viewed products</h3><div id="admin-top" class="grid"></div></div>
+    <div><h3>Abandoned carts</h3><div id="admin-cart" class="grid"></div></div>
+    <div class="card table-wrap"><h4>Popular searches</h4><div id="admin-search"></div></div>
+    <div class="card table-wrap"><h4>Searches with no results (catalog gaps)</h4><div id="admin-zero"></div></div>
+    <div class="card table-wrap"><h4>Alerts: unusual activity</h4><div id="admin-alerts"></div></div>
+    <div class="card table-wrap"><h4>Customer segments</h4><div id="admin-seg"></div></div>
+    <div><h3>Recommended products (what the engine is pushing)</h3><div id="admin-rec" class="grid"></div></div>
+    <p class="muted">Admins see aggregated behaviour only. A customer's own activity log is visible to that customer alone.</p>
+  </section>
+</main>
+
+<!-- ===== KAMERAPH FOOTER (copy as is, do not edit) ===== -->
+<footer class="kph-footer">
+  <div class="kph-footer-inner">
+    <div class="kph-logo">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </div>
+    <p class="kph-footer-note only-mobile">Your one-stop shop for professional gear.</p>
+    <p class="kph-footer-copy">© 2026 KameraPH. All rights reserved.</p>
+  </div>
+</footer>
+<!-- ===== END FOOTER ===== -->
+
+<script src="js/config.js?v=3"></script>
+<script src="js/api.js?v=3"></script>
+<script src="js/kph-ui.js?v=3"></script>
+<script src="js/demo.js?v=3"></script>
+<script src="js/catalog.js?v=1"></script>
+<script src="js/cart.js?v=3"></script>
+<script src="js/store.js?v=1"></script>
+<script src="js/activity.js?v=1"></script>
+<script src="js/analytics.js?v=1"></script>
+<script>
+(function () {
+  function $(id){return document.getElementById(id);}
+  var HEART='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>';
+  var CAT={};   // product id -> full product (name, image, price)
+
+  document.addEventListener("error",function(e){var i=e.target;if(i.tagName==="IMG"&&i.closest(".pc-img"))i.replaceWith("Photo");},true);
+
+  function table(h, rows){
+    if(!rows.length) return '<p class="muted">No data yet.</p>';
+    return '<table class="data-table"><thead><tr>'+h.map(function(x){return '<th>'+escapeHtml(x)+'</th>';}).join('')+'</tr></thead><tbody>'+rows.join('')+'</tbody></table>';
+  }
+  function prod(r){
+    var p=CAT[String(r.product_id)]||(window.KPHProducts&&KPHProducts.byId(r.product_id))||{};
+    return { id:r.product_id, name:p.name||r.ProductName||('Product #'+r.product_id), price:p.price, image:p.image, oldPrice:p.oldPrice, rating:p.rating, category:p.category, inStock:p.inStock };
+  }
+  function pname(r){return escapeHtml(prod(r).name);}
+
+  // One card for every role: photo, name, price, wishlist heart, Add to Cart. note = small caption.
+  function card(r, note){
+    var p=prod(r);
+    var img='<div class="pc-img">'+(p.image?'<img src="'+escapeHtml(p.image)+'" alt="'+escapeHtml(p.name)+'" loading="lazy">':'Photo')+'</div>';
+    var price=p.price!=null?'<div><span class="pc-price">'+escapeHtml(formatPeso(p.price))+'</span></div>':'';
+    var cap=note?'<div class="muted" style="font-size:12px">'+escapeHtml(note)+'</div>':'';
+    var soldOut=p.inStock===false;
+    return '<article class="product-card" data-id="'+escapeHtml(p.id)+'">'
+      +'<button class="pc-heart'+(window.KPHDemo&&KPHDemo.inWishlist(p.id)?' active':'')+'" type="button" aria-label="Add to wishlist">'+HEART+'</button>'
+      +img+'<div class="pc-name">'+escapeHtml(p.name)+'</div>'+price+cap
+      +'<button class="btn btn-block btn-sm" type="button" data-add '+(soldOut?'disabled':'')+'>'+(soldOut?'Out of stock':'Add to Cart')+'</button></article>';
+  }
+  function cards(el, items, noteFn, empty){
+    $(el).innerHTML=(items&&items.length)?items.map(function(r){return card(r,noteFn?noteFn(r):'');}).join(''):'<p class="muted" style="grid-column:1/-1">'+(empty||'No data yet.')+'</p>';
+  }
+  function stat(label,val,sub){return '<div class="card"><div class="muted" style="font-size:12px">'+escapeHtml(label)+'</div><div style="font-size:24px;font-weight:700">'+val+'</div>'+(sub?'<div class="muted" style="font-size:12px">'+escapeHtml(sub)+'</div>':'')+'</div>';}
+  function sumCards(s,admin){
+    var e=s.events||{};
+    var out=stat('Product views',e.product_viewed||0,'last '+s.days+' days')+stat('Added to cart',e.cart_added||0)+stat('Wishlisted',e.wishlist_added||0)+stat('Orders',e.order_placed||0)+stat('View → cart',s.view_to_cart_rate+'%')+stat('Cart → order',(s.cart_to_order_rate||0)+'%');
+    if(admin) out=stat('Active shoppers',s.active_users||0,'last '+s.days+' days')+out;
+    return out;
+  }
+  function bar(label,n,max){
+    var w=max?Math.max(2,Math.round(n/max*100)):0;
+    return '<div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>'+escapeHtml(label)+'</span><b>'+n+'</b></div><div style="background:var(--soft);border-radius:6px;height:10px"><div style="width:'+w+'%;height:10px;border-radius:6px;background:var(--orange)"></div></div></div>';
+  }
+  function perfRows(items){return items.map(function(r){var v=+r.views||0,c=+r.carts||0;return '<tr><td>'+pname(r)+'</td><td>'+v+'</td><td>'+r.wishlists+'</td><td>'+c+'</td><td>'+r.orders+'</td><td>'+(v?(c/v*100).toFixed(1):'0.0')+'%</td></tr>';});}
+  function interestTable(items,withIds){
+    return table(withIds?['Interest','Customers','Of them bought','Sample user IDs']:['Interest','Interested customers','Of them bought'],items.map(function(r){return '<tr><td>'+escapeHtml(r.interest)+'</td><td>'+r.customers+'</td><td>'+r.buyers+'</td>'+(withIds?'<td>'+escapeHtml(r.user_ids.slice(0,10).join(', '))+'</td>':'')+'</tr>';}));
+  }
+  var PERF_H=['Product','Views','Wishlists','Carts','Orders','View → cart'];
+  function who(r){return 'Viewed by '+r.unique_viewers+' people · '+r.views+' views';}
+
+  // Heart + Add to Cart work the same on every card
+  document.addEventListener('click',function(e){
+    var card=e.target.closest('.product-card'); if(!card) return;
+    var p=prod({product_id:card.dataset.id});
+    var heart=e.target.closest('.pc-heart');
+    if(heart){ if(window.KPHDemo) heart.classList.toggle('active',KPHDemo.toggleWishlist(p)); if(window.KPHActivity&&heart.classList.contains('active')) KPHActivity.track('wishlist_added','product',p.id,'Wishlisted '+p.name,{product_id:p.id}); return; }
+    var add=e.target.closest('[data-add]');
+    if(add&&window.KPHCart){
+      KPHCart.addAndSync(p,1).then(function(v){
+        if(window.KPHUI) KPHUI.setBadge('cart',(v&&v.count)||0);
+        if(window.KPHActivity) KPHActivity.track('cart_added','product',p.id,'Added to cart',{product_id:p.id,quantity:1});
+        add.textContent='Added ✓';
+      }).catch(function(err){alert(err&&err.message?err.message:'Could not add to cart.');});
+    }
+  });
+
+  async function admin(){
+    var s=await KPHAnalytics.report('admin','summary');
+    $('sec-admin').hidden=false; $('admin-summary').innerHTML=sumCards(s,true);
+    var e=s.events||{}, top=e.product_viewed||0;
+    $('admin-funnel').innerHTML=bar('Product views',e.product_viewed||0,top)+bar('Added to cart',e.cart_added||0,top)+bar('Checkout started',e.checkout_started||0,top)+bar('Orders placed',e.order_placed||0,top);
+    KPHAnalytics.report('admin','daily').then(function(d){$('admin-daily').innerHTML=table(['Date','Views','Carts','Orders','Active shoppers'],d.items.map(function(r){return '<tr><td>'+escapeHtml(r.day)+'</td><td>'+r.views+'</td><td>'+r.carts+'</td><td>'+r.orders+'</td><td>'+r.active_users+'</td></tr>';}));});
+    KPHAnalytics.report('admin','interests').then(function(d){$('admin-interests').innerHTML=interestTable(d.items,true);});
+    KPHAnalytics.report('admin','sellers').then(function(d){$('admin-sellers').innerHTML=table(['Seller ID','Products','Views','Carts','Orders'],d.items.map(function(r){return '<tr><td>#'+r.seller_id+'</td><td>'+r.products+'</td><td>'+r.views+'</td><td>'+r.carts+'</td><td>'+r.orders+'</td></tr>';}));});
+    KPHAnalytics.report('admin','performance',{limit:15}).then(function(d){$('admin-perf').innerHTML=table(PERF_H,perfRows(d.items));});
+    KPHAnalytics.report('admin','top_viewed',{limit:8}).then(function(d){cards('admin-top',d.items,who);});
+    KPHAnalytics.report('admin','abandoned_carts',{limit:8}).then(function(d){cards('admin-cart',d.items,function(r){return r.abandoned_by_users+' shoppers left it in cart';});});
+    KPHAnalytics.report('admin','popular_searches',{limit:15}).then(function(d){
+      $('admin-search').innerHTML=table(['Search term','Searches','Avg results'],d.items.map(function(r){return '<tr><td>'+escapeHtml(r.term)+'</td><td>'+r.searches+'</td><td>'+(r.avg_results==null?'-':r.avg_results)+'</td></tr>';}));
+      var z=d.items.filter(function(r){return r.avg_results!=null&&+r.avg_results===0;});
+      $('admin-zero').innerHTML=table(['Search term','Searches'],z.map(function(r){return '<tr><td>'+escapeHtml(r.term)+'</td><td>'+r.searches+'</td></tr>';}));
+    });
+    KPHAnalytics.report('admin','alerts').then(function(d){$('admin-alerts').innerHTML=table(['Alert','User ID','Count','Threshold'],d.alerts.map(function(a){return '<tr><td>'+escapeHtml(a.message)+'</td><td>'+(a.user_id==null?'-':a.user_id)+'</td><td>'+a.count+'</td><td>'+a.threshold+'</td></tr>';}));});
+    KPHAnalytics.report('admin','segments').then(function(d){$('admin-seg').innerHTML=table(['Segment','Customers','Sample user IDs'],d.segments.map(function(g){return '<tr><td>'+escapeHtml(g.label)+'</td><td>'+g.count+'</td><td>'+escapeHtml(g.user_ids.slice(0,10).join(', '))+'</td></tr>';}));});
+    KPHAnalytics.trending(4).then(function(d){cards('admin-rec',d.items,function(){return 'Trending pick';});}).catch(function(){});
+  }
+
+  async function seller(){
+    var s=await KPHAnalytics.report('seller','summary');
+    $('sec-seller').hidden=false; $('seller-summary').innerHTML=sumCards(s,false);
+    KPHAnalytics.report('seller','top_viewed',{limit:4}).then(function(d){cards('seller-top',d.items,who,'No views on your products yet.');});
+    KPHAnalytics.report('seller','interests').then(function(d){$('seller-interests').innerHTML=interestTable(d.items,false);});
+    KPHAnalytics.report('seller','performance').then(function(d){$('seller-perf').innerHTML=table(PERF_H,perfRows(d.items));});
+    KPHAnalytics.report('seller','abandoned_carts',{limit:4}).then(function(d){cards('seller-cart',d.items,function(r){return r.abandoned_by_users+' shopper(s) left this in cart';},'No abandoned carts. Nice!');});
+    KPHAnalytics.trending(4).then(function(d){cards('seller-rec',d.items,function(){return 'Trending on KameraPH';});}).catch(function(){});
+  }
+
+  async function customer(){
+    $('sec-customer').hidden=false;
+    KPHAnalytics.myInterests().then(function(d){$('cust-interests').innerHTML=table(['Interest','Strength','Why we think so'],d.items.map(function(r){return '<tr><td>Interested in <b>'+escapeHtml(r.interest)+'</b></td><td>'+escapeHtml(r.strength)+'</td><td>'+escapeHtml(r.evidence)+'</td></tr>';}));}).catch(function(){});
+    KPHAnalytics.mySummary().then(function(s){var e=s.events||{};$('cust-summary').innerHTML=stat('Products viewed',e.product_viewed||0,'last '+s.days+' days')+stat('Searches',e.product_searched||0)+stat('Wishlisted',e.wishlist_added||0)+stat('Added to cart',e.cart_added||0)+stat('Orders',e.order_placed||0);}).catch(function(){});
+    KPHAnalytics.recommendations(4).then(function(d){cards('cust-rec',d.items,function(r){return r.score?'Based on shoppers like you':'Trending now';});}).catch(function(e){$('cust-rec').textContent=e.message;});
+    KPHAnalytics.recentlyViewed(8).then(function(d){
+      cards('cust-recent',d.items.slice(0,4),function(r){return 'Viewed '+formatDate(r.last_viewed);},'You have not viewed anything yet.');
+      if(d.items.length) KPHAnalytics.alsoViewed(d.items[0].product_id,4).then(function(a){cards('cust-also',a.items,function(r){return r.shared_viewers+' shopper(s) also viewed this';},'Not enough shoppers yet.');});
+      else cards('cust-also',[],null,'View a product to see what similar shoppers looked at.');
+    }).catch(function(e){$('cust-recent').textContent=e.message;});
+    KPHAnalytics.myAbandoned(4).then(function(d){cards('cust-abandoned',d.items,function(r){return 'Added '+formatDate(r.last_added);},'Nothing waiting in your cart.');}).catch(function(){});
+    KPHAnalytics.trending(4).then(function(d){cards('cust-trending',d.items,function(r){return r.views+' views';});}).catch(function(){});
+  }
+
+  async function run(){
+    if(!KPHAuth.getToken()){ $('gate').hidden=false; return; }
+    try{ (await KPHStore.products({})).forEach(function(p){CAT[String(p.id)]=p;}); }catch(e){}
+    // Each role gets its own page. Server decides who is allowed.
+    try{ await admin(); $('page-title').textContent='Platform analytics'; $('page-sub').textContent='In-depth view of traffic, sales funnel, sellers, searches and risks across KameraPH.'; return; }catch(e){}
+    try{ await seller(); $('page-title').textContent='Seller insights'; $('page-sub').textContent='How shoppers are reacting to your products.'; return; }catch(e){}
+    $('page-title').textContent='My picks & activity'; $('page-sub').textContent='Products chosen for you, based on what you and similar shoppers viewed.';
+    customer();
+  }
+  run();
+})();
+</script>
+</body>
+</html>

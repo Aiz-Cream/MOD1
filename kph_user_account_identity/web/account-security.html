@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account security | KameraPH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/kph.css">
+  <link rel="stylesheet" href="css/module.css">
+  <!-- keeps the light/dark choice without a flash -->
+  <script>try{var t=localStorage.getItem("kph-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <style>
+    .info-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .info-row:last-child { border-bottom: 0; }
+    .info-label { color: var(--muted); font-size: 14px; }
+    .info-value { font-weight: 600; text-align: right; word-break: break-word; }
+    .history-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .history-row:last-child { border-bottom: 0; }
+    .history-meta { font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+<!-- ===== KAMERAPH HEADER (copy as is, do not edit) ===== -->
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="kph-topbar">
+  <div class="kph-topbar-inner">
+    <span>Free Shipping on orders over ₱2,000</span>
+    <div class="kph-topbar-mid hide-mobile">
+      <span>100% Authentic Product</span>
+      <span>1 Year Warranty</span>
+      <span>Easy Return</span>
+    </div>
+    <span class="hide-mobile">Need Help? 0999 999 9999</span>
+  </div>
+</div>
+<header class="kph-header">
+  <div class="kph-header-inner">
+    <a class="kph-logo" href="#" aria-label="KameraPH home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </a>
+    <nav class="kph-nav" id="kph-nav" aria-label="Main"></nav>
+    <div class="kph-search" id="kph-search">
+      <form id="kph-search-form" role="search">
+        <input type="search" placeholder="Search cameras, lenses, accessories" aria-label="Search">
+        <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      </form>
+    </div>
+    <div class="kph-icons">
+      <button class="icon-btn only-mobile" id="kph-search-toggle" type="button" aria-label="Open search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <button class="icon-btn" id="kph-theme-toggle" type="button" aria-label="Switch between light and dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <a class="icon-btn" data-kph-link="account" href="#" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+      <a class="icon-btn" data-kph-link="wishlist" href="#" aria-label="Wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg><span class="dot" hidden></span></a>
+      <a class="icon-btn" data-kph-link="cart" href="#" aria-label="Cart"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg><span class="dot" hidden></span></a>
+    </div>
+  </div>
+</header>
+<!-- ===== END HEADER ===== -->
+
+<main id="main" class="container">
+  <div class="stack" style="max-width:720px;margin:0 auto">
+    <h2 class="section-title">Account security</h2>
+    <p id="status" class="status-msg">Loading...</p>
+
+    <!-- A. Account information -->
+    <section class="card">
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <h3 style="margin:0">Account information</h3>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Password</span>
+        <span class="info-value"><span aria-label="Password is hidden">•••••••</span>
+          <button class="btn btn-sm btn-outline" type="button" id="changeBtn" style="margin-left:8px">Change</button></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Email</span>
+        <span class="info-value" id="accEmail">—</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Phone number</span>
+        <span class="info-value" id="accPhone">—</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Last login</span>
+        <span class="info-value" id="accLastLogin">—</span>
+      </div>
+    </section>
+
+    <!-- B. Change password -->
+    <section class="card" id="changePasswordCard">
+      <div class="card-title" style="margin-bottom:4px"><h3 style="margin:0">Change password</h3></div>
+      <p class="field-hint">Use at least 8 characters with an uppercase letter, a lowercase letter, a number and a special character.</p>
+      <form id="pwForm" class="form" novalidate>
+        <div class="field">
+          <label for="pwCurrent">Current password</label>
+          <input id="pwCurrent" name="CurrentPassword" type="password" required autocomplete="current-password">
+        </div>
+        <div class="field">
+          <label for="pwNew">New password</label>
+          <input id="pwNew" name="NewPassword" type="password" required autocomplete="new-password" data-password-strength>
+          <div class="pw-meter" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+          <span class="pw-strength-label" aria-live="polite"></span>
+          <ul class="pw-requirements">
+            <li data-req="length">At least 8 characters</li>
+            <li data-req="upper">One uppercase letter</li>
+            <li data-req="lower">One lowercase letter</li>
+            <li data-req="number">One number</li>
+            <li data-req="special">One special character</li>
+          </ul>
+        </div>
+        <div class="field">
+          <label for="pwConfirm">Confirm new password</label>
+          <input id="pwConfirm" name="ConfirmPassword" type="password" required autocomplete="new-password" data-password-confirm="#pwNew">
+        </div>
+        <button class="btn btn-block" type="submit">Update password</button>
+        <div id="pwMsg" role="status"></div>
+      </form>
+    </section>
+
+    <!-- C. Login history -->
+    <section class="card">
+      <div class="card-title" style="margin-bottom:8px"><h3 style="margin:0">Login history</h3></div>
+      <div id="loginHistory"><p class="muted">Loading...</p></div>
+    </section>
+
+    <!-- D. Log out all other devices -->
+    <section class="card">
+      <div class="card-title" style="margin-bottom:4px"><h3 style="margin:0">Log out all other devices</h3></div>
+      <p class="field-hint">Ends every other active session. This device stays signed in.</p>
+      <button class="btn btn-outline btn-block" type="button" id="logoutOthers">Log out all other devices</button>
+      <div id="sessionsMsg" role="status" style="margin-top:10px"></div>
+    </section>
+
+    <!-- E. Delete account -->
+    <section class="card">
+      <div class="card-title" style="margin-bottom:4px"><h3 style="margin:0">Delete account</h3></div>
+      <p class="field-hint">Permanently removes your profile, saved addresses and wishlist. This cannot be undone.</p>
+      <a class="btn btn-block btn-outline" href="delete-account.html" style="color:var(--bad);border-color:var(--bad)">Delete my account</a>
+    </section>
+
+    <p class="muted"><a href="profile.html">Back to my account</a></p>
+  </div>
+</main>
+
+<!-- ===== KAMERAPH FOOTER (copy as is, do not edit) ===== -->
+<footer class="kph-footer">
+  <div class="kph-footer-inner">
+    <div class="kph-logo">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </div>
+    <p class="kph-footer-note only-mobile">Your one-stop shop for professional gear.</p>
+    <p class="kph-footer-copy">© 2026 KameraPH. All rights reserved.</p>
+  </div>
+</footer>
+<!-- ===== END FOOTER ===== -->
+
+<script src="js/config.js?v=3"></script>
+<script src="js/api.js?v=3"></script>
+<script src="js/kph-ui.js?v=3"></script>
+<script src="js/demo.js?v=3"></script>
+<script src="js/pw-toggle.js?v=1"></script>
+<script src="js/password-strength.js?v=1"></script>
+<script>
+  const USE_API = true;
+
+  function fmt(s) {
+    if (!s) return "—";
+    const d = new Date(String(s).replace(" ", "T"));
+    return isNaN(d.getTime()) ? String(s) : d.toLocaleString();
+  }
+
+  const statusEl = document.getElementById("status");
+  const historyEl = document.getElementById("loginHistory");
+
+  async function loadAccount() {
+    try {
+      const u = await apiGet("/users.php");
+      document.getElementById("accEmail").textContent = u.Email || "—";
+      document.getElementById("accPhone").textContent = u.PhoneNumber || "—";
+      document.getElementById("accLastLogin").textContent = fmt(u.LastLoginAt);
+      statusEl.textContent = "";
+    } catch (err) {
+      statusEl.className = "alert alert-error";
+      statusEl.textContent = err.message;
+    }
+  }
+
+  async function loadHistory() {
+    try {
+      const hist = await apiGet("/activity.php?type=logins");
+      if (!Array.isArray(hist) || hist.length === 0) {
+        historyEl.innerHTML = '<p class="muted">No login history yet.</p>';
+        return;
+      }
+      historyEl.innerHTML = hist.map(function (h) {
+        const status = h.Status || "Success";
+        const cls = h.Current ? "badge badge-ok" : "badge";
+        return '<div class="history-row">' +
+          '<div><strong>' + escapeHtml(h.Device || "Web Browser") + '</strong>' +
+          '<div class="history-meta">' + escapeHtml(fmt(h.At)) + '</div></div>' +
+          '<span class="' + cls + '">' + escapeHtml(status) + '</span>' +
+          '</div>';
+      }).join("");
+    } catch (err) {
+      historyEl.innerHTML = '<p class="muted">Login history is unavailable right now.</p>';
+    }
+  }
+
+  document.getElementById("changeBtn").addEventListener("click", function () {
+    document.getElementById("changePasswordCard").scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById("pwCurrent").focus();
+  });
+
+  document.getElementById("pwForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const msg = document.getElementById("pwMsg");
+    msg.className = ""; msg.textContent = "";
+    const cur = document.getElementById("pwCurrent").value;
+    const nw = document.getElementById("pwNew").value;
+    const cf = document.getElementById("pwConfirm").value;
+    if (!cur || !nw || !cf) { msg.className = "alert alert-error"; msg.textContent = "Please fill in all three fields."; return; }
+    if (nw !== cf) { msg.className = "alert alert-error"; msg.textContent = "The two passwords do not match."; return; }
+    try {
+      await apiSend("POST", "/users.php?action=change-password", { CurrentPassword: cur, NewPassword: nw });
+      msg.className = "alert alert-ok";
+      msg.textContent = "Password changed successfully.";
+      e.target.reset();
+    } catch (err) {
+      msg.className = "alert alert-error";
+      msg.textContent = err.message;
+    }
+  });
+
+  document.getElementById("logoutOthers").addEventListener("click", async function () {
+    if (!confirm("Log out of all other devices? Your current session will stay active.")) return;
+    const m = document.getElementById("sessionsMsg");
+    m.className = ""; m.textContent = "";
+    try {
+      const r = await apiSend("POST", "/login.php?action=logout-others", {});
+      m.className = "alert alert-ok";
+      m.textContent = r.message || "Logged out of other devices.";
+      loadHistory();
+    } catch (err) {
+      m.className = "alert alert-error";
+      m.textContent = err.message;
+    }
+  });
+
+  loadAccount();
+  loadHistory();
+  KPHDemo.syncBadges();
+</script>
+</body>
+</html>

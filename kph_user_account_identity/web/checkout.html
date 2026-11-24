@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout | KameraPH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/kph.css">
+  <link rel="stylesheet" href="css/module.css">
+  <script>try{var t=localStorage.getItem("kph-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <style>
+    .checkout-list { display: grid; gap: 8px; }
+    .checkout-line { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .checkout-line:last-child { border-bottom: 0; }
+    .checkout-line img, .checkout-line .ph { width: 56px; height: 56px; object-fit: cover; border-radius: var(--radius-sm); background: var(--soft); display: grid; place-items: center; color: var(--muted); font-size: 12px; }
+    .checkout-line .cl-name { flex: 1; min-width: 0; }
+    .checkout-line .cl-name b { display: block; }
+    .checkout-line .cl-price { color: var(--muted); font-size: 13px; }
+    .radio-row { display: flex; gap: 16px; flex-wrap: wrap; }
+    .radio-row label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
+    .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .field-grid .full { grid-column: 1 / -1; }
+    @media (max-width: 600px) { .field-grid { grid-template-columns: 1fr; } }
+    .seller-note { color: var(--muted); font-size: 13px; }
+  </style>
+</head>
+<body>
+<!-- ===== KAMERAPH HEADER (copy as is, do not edit) ===== -->
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="kph-topbar">
+  <div class="kph-topbar-inner">
+    <span>Free Shipping on orders over ₱2,000</span>
+    <div class="kph-topbar-mid hide-mobile">
+      <span>100% Authentic Product</span>
+      <span>1 Year Warranty</span>
+      <span>Easy Return</span>
+    </div>
+    <span class="hide-mobile">Need Help? 0999 999 9999</span>
+  </div>
+</div>
+<header class="kph-header">
+  <div class="kph-header-inner">
+    <a class="kph-logo" href="#" aria-label="KameraPH home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </a>
+    <nav class="kph-nav" id="kph-nav" aria-label="Main"></nav>
+    <div class="kph-search" id="kph-search">
+      <form id="kph-search-form" role="search">
+        <input type="search" placeholder="Search cameras, lenses, accessories" aria-label="Search">
+        <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      </form>
+    </div>
+    <div class="kph-icons">
+      <button class="icon-btn only-mobile" id="kph-search-toggle" type="button" aria-label="Open search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <button class="icon-btn" id="kph-theme-toggle" type="button" aria-label="Switch between light and dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <a class="icon-btn" data-kph-link="account" href="#" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+      <a class="icon-btn" data-kph-link="wishlist" href="#" aria-label="Wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg><span class="dot" hidden></span></a>
+      <a class="icon-btn" data-kph-link="cart" href="#" aria-label="Cart"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg><span class="dot" hidden></span></a>
+    </div>
+  </div>
+</header>
+<!-- ===== END HEADER ===== -->
+
+<main id="main" class="container stack">
+  <h2 class="section-title">Checkout</h2>
+
+  <div id="loading" class="card" style="text-align:center;padding:48px;color:var(--muted)">Loading checkout...</div>
+
+  <div id="error" hidden class="card" style="text-align:center;padding:32px">
+    <p style="margin-bottom:16px">Please log in to checkout.</p>
+    <a href="login.html" class="btn btn-primary">Log in</a>
+  </div>
+
+  <div id="empty" hidden class="card">
+    <div class="cart-empty">
+      <p style="margin:0;font-size:16px">Your cart is empty.</p>
+      <p style="margin-top:8px"><a href="search.html" class="btn btn-outline btn-sm">Browse products</a></p>
+    </div>
+  </div>
+
+  <div id="checkout" hidden>
+    <div class="checkout-grid">
+      <div class="stack">
+        <section class="card">
+          <h3 style="margin-top:0">Items</h3>
+          <div id="items" class="checkout-list"></div>
+          <p id="splitNote" class="seller-note" style="margin-top:10px"></p>
+        </section>
+
+        <section class="card">
+          <h3 style="margin-top:0">Shipping method</h3>
+          <div class="radio-row">
+            <label><input type="radio" name="shipping" value="Standard" checked> Standard delivery</label>
+            <label><input type="radio" name="shipping" value="Pickup"> Pick up</label>
+          </div>
+        </section>
+
+        <section class="card" id="addressCard">
+          <h3 style="margin-top:0">Delivery address</h3>
+          <div id="savedAddressWrap" hidden>
+            <label for="addressSelect">Saved address</label>
+            <select id="addressSelect" class="input" style="width:100%;margin-bottom:10px"></select>
+          </div>
+          <div id="manualAddress" class="field-grid">
+            <div><label for="af">First name</label><input id="af" class="input" autocomplete="given-name"></div>
+            <div><label for="al">Last name</label><input id="al" class="input" autocomplete="family-name"></div>
+            <div class="full"><label for="aphone">Phone</label><input id="aphone" class="input" autocomplete="tel"></div>
+            <div class="full"><label for="ahouse">House / unit</label><input id="ahouse" class="input"></div>
+            <div class="full"><label for="astreet">Street</label><input id="astreet" class="input" autocomplete="street-address"></div>
+            <div><label for="abrgy">Barangay</label><input id="abrgy" class="input"></div>
+            <div><label for="acity">City</label><input id="acity" class="input"></div>
+            <div><label for="aprov">Province</label><input id="aprov" class="input"></div>
+            <div><label for="apostal">Postal code</label><input id="apostal" class="input"></div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h3 style="margin-top:0">Payment</h3>
+          <p style="margin:0">Cash on Delivery (COD). Online payment is not available yet.</p>
+        </section>
+      </div>
+
+      <aside class="card" style="position:sticky;top:20px">
+        <h3 style="margin-top:0">Summary</h3>
+        <div class="summary-row"><span>Subtotal</span><span id="sumSubtotal">₱0.00</span></div>
+        <div class="summary-row"><span>Shipping</span><span id="sumShipping">₱0.00</span></div>
+        <div class="summary-row"><span>Discount</span><span id="sumDiscount">₱0.00</span></div>
+        <div class="summary-row total"><span>Total</span><span id="sumTotal">₱0.00</span></div>
+        <div id="checkoutAlert" class="alert alert-error" hidden style="margin-top:12px"></div>
+        <button class="btn btn-block" id="placeOrder" style="margin-top:14px">Place Order</button>
+        <p class="muted" style="font-size:12px;margin-top:10px">By placing the order you agree to KameraPH's terms. Prices are confirmed at checkout.</p>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<!-- ===== KAMERAPH FOOTER (copy as is, do not edit) ===== -->
+<footer class="kph-footer">
+  <div class="kph-footer-inner">
+    <div class="kph-logo">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </div>
+    <p class="kph-footer-note only-mobile">Your one-stop shop for professional gear.</p>
+    <p class="kph-footer-copy">© 2026 KameraPH. All rights reserved.</p>
+  </div>
+</footer>
+<!-- ===== END FOOTER ===== -->
+
+<script src="js/config.js?v=3"></script>
+<script src="js/api.js?v=3"></script>
+<script src="js/kph-ui.js?v=3"></script>
+<script src="js/demo.js?v=3"></script>
+<script src="js/catalog.js?v=1"></script>
+<script src="js/cart.js?v=3"></script>
+<script src="js/store.js?v=1"></script>
+<script src="js/activity.js?v=1"></script>
+<script>
+(function () {
+  var loading = document.getElementById("loading");
+  var errorBox = document.getElementById("error");
+  var emptyBox = document.getElementById("empty");
+  var checkout = document.getElementById("checkout");
+  var itemsEl = document.getElementById("items");
+  var splitNote = document.getElementById("splitNote");
+  var sumSubtotal = document.getElementById("sumSubtotal");
+  var sumShipping = document.getElementById("sumShipping");
+  var sumDiscount = document.getElementById("sumDiscount");
+  var sumTotal = document.getElementById("sumTotal");
+  var alertBox = document.getElementById("checkoutAlert");
+  var placeBtn = document.getElementById("placeOrder");
+  var addressSelect = document.getElementById("addressSelect");
+  var savedWrap = document.getElementById("savedAddressWrap");
+  var manualWrap = document.getElementById("manualAddress");
+  var addressCard = document.getElementById("addressCard");
+
+  var cart = null;
+  var addresses = [];
+  var shippingMethod = "Standard";
+  var previewTimer = null;
+
+  function commerceUrl() {
+    var k = window.KPH || {};
+    return String(k.commerceApi || k.cartApi || k.api || "").replace(/\/$/, "");
+  }
+
+  async function commerceFetch(method, path, body) {
+    var token = KPHAuth.getToken();
+    var opts = { method: method, headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token } };
+    if (body) opts.body = JSON.stringify(body);
+    var res = await fetch(commerceUrl() + path, opts);
+    var data = null;
+    try { data = await res.json(); } catch (e) { data = null; }
+    if (!res.ok) {
+      var err = new Error((data && (data.error || data.message)) || ("HTTP " + res.status));
+      err.status = res.status;
+      throw err;
+    }
+    return data;
+  }
+
+  function checkoutKey() {
+    var key = null;
+    try { key = sessionStorage.getItem("kph-checkout-key"); } catch (e) {}
+    if (!key) {
+      key = "ck-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
+      try { sessionStorage.setItem("kph-checkout-key", key); } catch (e) {}
+    }
+    return key;
+  }
+
+  function selectedItems() {
+    var items = [];
+    var lines = itemsEl.querySelectorAll(".checkout-line");
+    for (var i = 0; i < lines.length; i++) {
+      var cb = lines[i].querySelector("input[type=checkbox]");
+      if (cb && cb.checked) {
+        items.push({ ProductID: parseInt(lines[i].dataset.pid, 10), Quantity: parseInt(lines[i].dataset.qty, 10) });
+      }
+    }
+    return items;
+  }
+
+  function renderItems() {
+    itemsEl.innerHTML = cart.items.map(function (it) {
+      return `
+        <div class="checkout-line" data-pid="${it.ProductID}" data-qty="${it.Quantity}">
+          <input type="checkbox" checked aria-label="Include ${escapeHtml(it.ProductName)}">
+          <div class="ph">${it.ImageURL ? '<img src="' + escapeHtml(it.ImageURL) + '" alt="">' : "Photo"}</div>
+          <div class="cl-name">
+            <b>${escapeHtml(it.ProductName)}</b>
+            <div class="cl-price">${formatPeso(it.UnitPrice)} × ${it.Quantity}</div>
+          </div>
+          <div><b>${formatPeso(it.Subtotal)}</b></div>
+        </div>`;
+    }).join("");
+  }
+
+  function renderAddressOptions() {
+    if (!addresses.length) {
+      savedWrap.hidden = true;
+      manualWrap.hidden = false;
+      return;
+    }
+    savedWrap.hidden = false;
+    addressSelect.innerHTML = addresses.map(function (a) {
+      var label = (a.RecipientFirstName || "") + " " + (a.RecipientLastName || "") + " — " + (a.Street || "") + ", " + (a.City || "");
+      return `<option value="${a.AddressID}">${escapeHtml(label.trim())}</option>`;
+    }).join("") + '<option value="__new">Use a different address</option>';
+    addressSelect.value = String(addresses[0].AddressID);
+    manualWrap.hidden = true;
+  }
+
+  async function refreshPreview() {
+    var items = selectedItems();
+    if (!items.length) {
+      sumSubtotal.textContent = formatPeso(0);
+      sumShipping.textContent = formatPeso(0);
+      sumDiscount.textContent = formatPeso(0);
+      sumTotal.textContent = formatPeso(0);
+      return;
+    }
+    try {
+      var prev = await commerceFetch("POST", "/orders.php?action=preview", {
+        Items: items, ShippingMethod: shippingMethod
+      });
+      sumSubtotal.textContent = formatPeso(prev.Subtotal);
+      sumShipping.textContent = formatPeso(prev.ShippingFee);
+      sumDiscount.textContent = formatPeso(prev.DiscountAmount || 0);
+      sumTotal.textContent = formatPeso(prev.Total);
+      var n = prev.Groups ? prev.Groups.length : 0;
+      splitNote.textContent = n > 1
+        ? "Your order will be split into " + n + " seller orders (one payment)."
+        : "";
+    } catch (e) {
+      showAlert(e.message || "Could not calculate totals.");
+    }
+  }
+
+  function showAlert(msg) {
+    alertBox.textContent = msg;
+    alertBox.hidden = !msg;
+  }
+
+  async function placeOrder() {
+    showAlert("");
+    var items = selectedItems();
+    if (!items.length) {
+      showAlert("Select at least one item.");
+      return;
+    }
+
+    var body = {
+      Items: items,
+      ShippingMethod: shippingMethod,
+      CheckoutKey: checkoutKey()
+    };
+
+    var useSaved = !savedWrap.hidden && addressSelect.value && addressSelect.value !== "__new";
+    if (shippingMethod === "Pickup") {
+      // Pickup needs no address (pickup_requires_address=false).
+    } else if (useSaved) {
+      body.AddressID = parseInt(addressSelect.value, 10);
+    } else {
+      body.RecipientFirstName = document.getElementById("af").value.trim();
+      body.RecipientLastName = document.getElementById("al").value.trim();
+      body.RecipientPhone = document.getElementById("aphone").value.trim();
+      body.HouseUnit = document.getElementById("ahouse").value.trim();
+      body.Street = document.getElementById("astreet").value.trim();
+      body.Barangay = document.getElementById("abrgy").value.trim();
+      body.City = document.getElementById("acity").value.trim();
+      body.Province = document.getElementById("aprov").value.trim();
+      body.PostalCode = document.getElementById("apostal").value.trim();
+    }
+
+    placeBtn.disabled = true;
+    placeBtn.textContent = "Placing order...";
+    try {
+      var res = await commerceFetch("POST", "/orders.php", body);
+      try { sessionStorage.removeItem("kph-checkout-key"); } catch (e) {}
+      if (window.KPHUI) KPHUI.setBadge("cart", 0);
+      if (window.KPHActivity) {
+        var total = 0;
+        (res.Orders || []).forEach(function (o) { total += Number(o.Total || 0); });
+        KPHActivity.track("order_placed", "order", (res.Orders && res.Orders[0] && res.Orders[0].OrderID) || null,
+          "Placed order", { checkout_key: res.CheckoutKey, order_count: (res.Orders || []).length, total: total });
+      }
+      location.href = "purchases.html";
+    } catch (e) {
+      showAlert(e.message || "Could not place the order.");
+      placeBtn.disabled = false;
+      placeBtn.textContent = "Place Order";
+    }
+  }
+
+  async function init() {
+    if (!KPHAuth.getToken()) {
+      loading.hidden = true;
+      errorBox.hidden = false;
+      return;
+    }
+    try {
+      cart = await KPHCart.get();
+    } catch (e) {
+      loading.hidden = true;
+      errorBox.hidden = false;
+      return;
+    }
+    if (!cart.items || !cart.items.length) {
+      loading.hidden = true;
+      emptyBox.hidden = false;
+      return;
+    }
+    loading.hidden = true;
+    checkout.hidden = false;
+    renderItems();
+    try {
+      var res = await apiGet("/addresses.php");
+      addresses = Array.isArray(res) ? res : (res && res.addresses ? res.addresses : []);
+    } catch (e) {
+      addresses = [];
+    }
+    renderAddressOptions();
+    refreshPreview();
+    if (window.KPHActivity) {
+      KPHActivity.track("checkout_started", "cart", null, "Started checkout", {
+        item_count: cart.count, subtotal: cart.subtotal
+      });
+    }
+  }
+
+  itemsEl.addEventListener("change", function () { refreshPreview(); });
+  document.querySelectorAll('input[name="shipping"]').forEach(function (r) {
+    r.addEventListener("change", function () {
+      shippingMethod = r.value;
+      if (shippingMethod === "Pickup") {
+        addressCard.hidden = true;
+      } else {
+        addressCard.hidden = false;
+      }
+      refreshPreview();
+    });
+  });
+  addressSelect.addEventListener("change", function () {
+    manualWrap.hidden = addressSelect.value !== "__new";
+  });
+  placeBtn.addEventListener("click", placeOrder);
+
+  init();
+})();
+</script>
+</body>
+</html>

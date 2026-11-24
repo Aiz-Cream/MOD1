@@ -1,0 +1,22 @@
+# Local credentials and environment overrides
+config/config.local.php
+config/*.local.php
+.env
+*.env
+
+# SSL certificates
+config/ssl/*.pem
+config/ssl/*.crt
+config/ssl/*.key
+
+# Uploaded files (except .gitkeep)
+web/uploads/*
+!web/uploads/.gitkeep
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+*.tmp

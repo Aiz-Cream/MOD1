@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Become a Seller | KameraPH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/kph.css">
+  <link rel="stylesheet" href="css/module.css">
+  <script>try{var t=localStorage.getItem("kph-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<!-- ===== KAMERAPH HEADER (copy as is, do not edit) ===== -->
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="kph-topbar">
+  <div class="kph-topbar-inner">
+    <span>Free Shipping on orders over ₱2,000</span>
+    <div class="kph-topbar-mid hide-mobile">
+      <span>100% Authentic Product</span>
+      <span>1 Year Warranty</span>
+      <span>Easy Return</span>
+    </div>
+    <span class="hide-mobile">Need Help? 0999 999 9999</span>
+  </div>
+</div>
+<header class="kph-header">
+  <div class="kph-header-inner">
+    <a class="kph-logo" href="#" aria-label="KameraPH home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </a>
+    <nav class="kph-nav" id="kph-nav" aria-label="Main"></nav>
+    <div class="kph-search" id="kph-search">
+      <form id="kph-search-form" role="search">
+        <input type="search" placeholder="Search cameras, lenses, accessories" aria-label="Search">
+        <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      </form>
+    </div>
+    <div class="kph-icons">
+      <button class="icon-btn only-mobile" id="kph-search-toggle" type="button" aria-label="Open search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <button class="icon-btn" id="kph-theme-toggle" type="button" aria-label="Switch between light and dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <a class="icon-btn" data-kph-link="account" href="#" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+      <a class="icon-btn" data-kph-link="wishlist" href="#" aria-label="Wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg><span class="dot" hidden></span></a>
+      <a class="icon-btn" data-kph-link="cart" href="#" aria-label="Cart"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg><span class="dot" hidden></span></a>
+    </div>
+  </div>
+</header>
+<!-- ===== END HEADER ===== -->
+
+<main id="main" class="container stack" style="max-width:760px">
+  <div class="row" style="justify-content:space-between;align-items:baseline">
+    <h2 class="section-title" style="margin:0">Become a Seller</h2>
+    <a href="seller.html" id="dashboardLink" class="btn btn-sm btn-outline" hidden>Open seller dashboard</a>
+  </div>
+
+  <div id="loading" class="card" style="text-align:center;padding:48px;color:var(--muted)">Loading...</div>
+
+  <div id="login" hidden class="card">
+    <p>Please log in to apply as a seller.</p>
+    <a href="login.html" class="btn btn-primary">Log in</a>
+  </div>
+
+  <div id="message" hidden class="card"></div>
+
+  <div id="form" hidden class="card">
+    <p class="muted" style="margin-top:0">Tell us about your store. Applications are reviewed by the KameraPH team.</p>
+    <form id="applyForm">
+      <div class="field-grid">
+        <div class="full"><label for="storeName">Store name</label><input id="storeName" class="input" required maxlength="150"></div>
+        <div><label for="contact">Contact number</label><input id="contact" class="input" required maxlength="20"></div>
+        <div><label for="sellerType">Seller type</label>
+          <select id="sellerType" class="input">
+            <option>Individual</option><option>Business</option>
+          </select>
+        </div>
+        <div class="full"><label for="category">Product category</label>
+          <input id="category" class="input" maxlength="100" placeholder="e.g. Cameras, Lenses">
+        </div>
+        <div class="full"><label for="businessAddress">Business address</label>
+          <input id="businessAddress" class="input" maxlength="500">
+        </div>
+        <div class="full"><label for="description">Store description</label>
+          <textarea id="description" class="input" rows="4" maxlength="2000"></textarea>
+        </div>
+      </div>
+      <div id="applyAlert" class="alert alert-error" hidden style="margin-top:12px"></div>
+      <button class="btn" type="submit" id="submitBtn" style="margin-top:14px">Submit application</button>
+    </form>
+  </div>
+</main>
+
+<!-- ===== KAMERAPH FOOTER (copy as is, do not edit) ===== -->
+<footer class="kph-footer">
+  <div class="kph-footer-inner">
+    <div class="kph-logo">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </div>
+    <p class="kph-footer-note only-mobile">Your one-stop shop for professional gear.</p>
+    <p class="kph-footer-copy">© 2026 KameraPH. All rights reserved.</p>
+  </div>
+</footer>
+<!-- ===== END FOOTER ===== -->
+
+<script src="js/config.js?v=3"></script>
+<script src="js/api.js?v=3"></script>
+<script src="js/kph-ui.js?v=3"></script>
+<script src="js/demo.js?v=3"></script>
+<script src="js/store.js?v=1"></script>
+<script src="js/activity.js?v=1"></script>
+<script>
+(function () {
+  var loading = document.getElementById("loading");
+  var loginBox = document.getElementById("login");
+  var message = document.getElementById("message");
+  var form = document.getElementById("form");
+  var dashboardLink = document.getElementById("dashboardLink");
+  var alertBox = document.getElementById("applyAlert");
+  var submitBtn = document.getElementById("submitBtn");
+
+  function commerceUrl() {
+    var k = window.KPH || {};
+    return String(k.commerceApi || k.cartApi || k.api || "").replace(/\/$/, "");
+  }
+
+  async function commerceFetch(method, path, body) {
+    var token = KPHAuth.getToken();
+    var opts = { method: method, headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token } };
+    if (body) opts.body = JSON.stringify(body);
+    var res = await fetch(commerceUrl() + path, opts);
+    var data = null;
+    try { data = await res.json(); } catch (e) { data = null; }
+    if (!res.ok) {
+      var err = new Error((data && (data.error || data.message)) || ("HTTP " + res.status));
+      err.status = res.status;
+      throw err;
+    }
+    return data;
+  }
+
+  function showMessage(html) {
+    message.innerHTML = html;
+    message.hidden = false;
+    form.hidden = true;
+  }
+
+  async function load() {
+    if (!KPHAuth.getToken()) {
+      loading.hidden = true;
+      loginBox.hidden = false;
+      return;
+    }
+    try {
+      var res = await commerceFetch("GET", "/sellers.php?application=1");
+      var app = res.application;
+      loading.hidden = true;
+
+      if (!app) {
+        form.hidden = false;
+        return;
+      }
+      if (app.Status === "Pending") {
+        showMessage("<p>Your application is <b>under review</b>. We will update your account once it is reviewed.</p>");
+      } else if (app.Status === "Approved") {
+        showMessage("<p>You are an approved seller. Manage your products and orders from the seller dashboard.</p>");
+        dashboardLink.hidden = false;
+      } else if (app.Status === "Suspended") {
+        showMessage("<p>Your seller account is <b>suspended</b>. Reason: " + escapeHtml(app.RejectionReason || "Contact support") + "</p>");
+      } else if (app.Status === "Rejected") {
+        if (Number(app.CanReapply) === 0) {
+          showMessage("<p>Your application was rejected and re-application is closed. Reason: " + escapeHtml(app.RejectionReason || "") + "</p>");
+        } else {
+          showMessage("<p>Your previous application was rejected. You may apply again.</p>");
+          form.hidden = false;
+        }
+      }
+    } catch (e) {
+      loading.hidden = true;
+      loginBox.hidden = false;
+    }
+  }
+
+  document.getElementById("applyForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    alertBox.hidden = true;
+    submitBtn.disabled = true;
+    try {
+      await commerceFetch("POST", "/sellers.php?action=apply", {
+        StoreName: document.getElementById("storeName").value.trim(),
+        ContactNumber: document.getElementById("contact").value.trim(),
+        SellerType: document.getElementById("sellerType").value,
+        ProductCategory: document.getElementById("category").value.trim(),
+        BusinessAddress: document.getElementById("businessAddress").value.trim(),
+        StoreDescription: document.getElementById("description").value.trim()
+      });
+      if (window.KPHActivity) {
+        KPHActivity.track("seller_application_submitted", "seller_application", null, "Submitted seller application", {});
+      }
+      load();
+    } catch (err) {
+      alertBox.textContent = err.message || "Could not submit your application.";
+      alertBox.hidden = false;
+      submitBtn.disabled = false;
+    }
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>

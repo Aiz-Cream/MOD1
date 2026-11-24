@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shopping Cart | KameraPH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/kph.css">
+  <link rel="stylesheet" href="css/module.css">
+  <script>try{var t=localStorage.getItem("kph-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <style>
+    .cart-item { display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .cart-item:last-child { border-bottom: 0; }
+    .cart-item-img { width: 100px; height: 100px; flex-shrink: 0; background: var(--soft); border-radius: var(--radius-sm); overflow: hidden; display: grid; place-items: center; color: var(--muted); font-size: 14px; }
+    .cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+    .cart-item-details { flex: 1; min-width: 0; }
+    .cart-item-name { font-weight: 600; color: var(--text); margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .cart-item-price { color: var(--muted); font-size: 14px; }
+    .cart-item-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+    .qty-input { width: 60px; text-align: center; padding: 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; }
+    .qty-btn { padding: 6px 10px; font-size: 13px; }
+    .cart-item-subtotal { font-weight: 600; color: var(--orange-text); }
+    .cart-summary { margin-top: 24px; padding: 20px; border-radius: var(--radius); }
+    .cart-summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
+    .cart-summary-total { font-size: 18px; font-weight: 700; color: var(--text); }
+    .cart-empty { text-align: center; padding: 48px 16px; color: var(--muted); }
+    @media (max-width: 600px) {
+      .cart-item { flex-direction: column; align-items: stretch; }
+      .cart-item-img { width: 100%; height: 120px; }
+    }
+  </style>
+</head>
+<body>
+<!-- ===== KAMERAPH HEADER (same as Module 1) ===== -->
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="kph-topbar">
+  <div class="kph-topbar-inner">
+    <span>Free Shipping on orders over ₱2,000</span>
+    <div class="kph-topbar-mid hide-mobile">
+      <span>100% Authentic Product</span>
+      <span>1 Year Warranty</span>
+      <span>Easy Return</span>
+    </div>
+    <span class="hide-mobile">Need Help? 0999 999 9999</span>
+  </div>
+</div>
+<header class="kph-header">
+  <div class="kph-header-inner">
+    <a class="kph-logo" href="#" aria-label="KameraPH home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </a>
+    <nav class="kph-nav" id="kph-nav" aria-label="Main"></nav>
+    <div class="kph-search" id="kph-search">
+      <form id="kph-search-form" role="search">
+        <input type="search" placeholder="Search cameras, lenses, accessories" aria-label="Search">
+        <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      </form>
+    </div>
+    <div class="kph-icons">
+      <button class="icon-btn only-mobile" id="kph-search-toggle" type="button" aria-label="Open search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <button class="icon-btn" id="kph-theme-toggle" type="button" aria-label="Switch between light and dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <a class="icon-btn" data-kph-link="account" href="#" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+      <a class="icon-btn" data-kph-link="wishlist" href="#" aria-label="Wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg><span class="dot" hidden></span></a>
+      <a class="icon-btn" data-kph-link="cart" href="#" aria-label="Cart"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg><span class="dot" hidden></span></a>
+    </div>
+  </div>
+</header>
+<!-- ===== END HEADER ===== -->
+
+<main id="main" class="container">
+  <div class="row" style="justify-content:space-between;align-items:baseline">
+    <h2 class="section-title" style="margin:0">Shopping Cart</h2>
+    <a href="search.html" class="btn btn-outline btn-sm">Continue shopping</a>
+  </div>
+
+  <!-- Loading state -->
+  <div id="loading" class="card" style="text-align:center;padding:48px;color:var(--muted)">
+    Loading cart...
+  </div>
+
+  <!-- Error state -->
+  <div id="error" hidden class="card" style="text-align:center;padding:32px">
+    <p style="margin-bottom:16px">Unable to load your cart.</p>
+    <a href="login.html" class="btn btn-primary" id="loginLink">Log in to view cart</a>
+  </div>
+
+  <!-- Empty state -->
+  <div id="empty" hidden class="card">
+    <div class="cart-empty">
+      <p style="margin:0;font-size:16px">Your cart is empty.</p>
+      <p style="margin-top:8px"><a href="search.html" class="btn btn-outline btn-sm">Browse products</a></p>
+    </div>
+  </div>
+
+  <div id="cartAlert" class="alert alert-error" hidden style="margin-top:16px"></div>
+
+  <!-- Cart items -->
+  <div id="items" hidden>
+    <div class="card">
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <label style="display:flex;gap:8px;align-items:center;cursor:pointer">
+          <input type="checkbox" id="selectAll" checked> Select all
+        </label>
+        <button class="btn btn-sm btn-danger" id="clearCart">Clear Cart</button>
+      </div>
+      <div id="itemsList" style="margin-top:8px"></div>
+    </div>
+
+    <div class="cart-summary card">
+      <div class="cart-summary-row">
+        <span>Selected items</span>
+        <span id="selectedCount">0</span>
+      </div>
+      <div class="cart-summary-row">
+        <span>Subtotal</span>
+        <span id="subtotal">₱0.00</span>
+      </div>
+      <div class="cart-summary-row">
+        <span>Shipping</span>
+        <span id="shippingNote" class="muted">Calculated at checkout</span>
+      </div>
+      <div class="cart-summary-row cart-summary-total">
+        <span>Estimated total</span>
+        <span id="total">₱0.00</span>
+      </div>
+      <button class="btn btn-block" id="checkoutBtn" style="margin-top:16px">Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <p id="authWarning" hidden class="alert alert-warn" style="margin-top:16px">
+    Prices shown are provisional. Final pricing will be confirmed at checkout.
+  </p>
+</main>
+
+<!-- ===== KAMERAPH FOOTER ===== -->
+<footer class="kph-footer">
+  <div class="kph-footer-inner">
+    <div class="kph-logo">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </div>
+    <p class="kph-footer-note only-mobile">Your one-stop shop for professional gear.</p>
+    <p class="kph-footer-copy">© 2026 KameraPH. All rights reserved.</p>
+  </div>
+</footer>
+<!-- ===== END FOOTER ===== -->
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/kph-ui.js"></script>
+<script src="js/demo.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/activity.js?v=1"></script>
+<script>
+(function () {
+  const loading = document.getElementById('loading');
+  const error = document.getElementById('error');
+  const empty = document.getElementById('empty');
+  const items = document.getElementById('items');
+  const itemsList = document.getElementById('itemsList');
+  const selectAll = document.getElementById('selectAll');
+  const subtotalEl = document.getElementById('subtotal');
+  const totalEl = document.getElementById('total');
+  const selectedCountEl = document.getElementById('selectedCount');
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  const clearBtn = document.getElementById('clearCart');
+  const authWarning = document.getElementById('authWarning');
+  const alertBox = document.getElementById('cartAlert');
+
+  let cartView = null;
+  let clearTimer = null;
+
+  function showAlert(msg) {
+    alertBox.textContent = msg || '';
+    alertBox.hidden = !msg;
+  }
+
+  function selectedRows() {
+    return itemsList.querySelectorAll('.cart-item');
+  }
+
+  function recompute() {
+    if (!cartView || !cartView.items) return;
+    let count = 0;
+    let subtotal = 0;
+    cartView.items.forEach(function (item) {
+      const row = itemsList.querySelector('.cart-item[data-product-id="' + item.ProductID + '"]');
+      const cb = row ? row.querySelector('[data-action="select"]') : null;
+      if (cb && cb.checked) {
+        count += item.Quantity;
+        subtotal += Number(item.Subtotal);
+      }
+    });
+    selectedCountEl.textContent = count;
+    subtotalEl.textContent = formatPeso(subtotal);
+    totalEl.textContent = formatPeso(subtotal);
+    checkoutBtn.disabled = count === 0;
+    var all = selectedRows();
+    var checked = 0;
+    all.forEach(function (r) { if (r.querySelector('[data-action="select"]').checked) checked++; });
+    selectAll.checked = all.length > 0 && checked === all.length;
+  }
+
+  function render() {
+    itemsList.innerHTML = cartView.items.map(item => `
+      <div class="cart-item" data-product-id="${item.ProductID}">
+        <input type="checkbox" data-action="select" checked aria-label="Select ${escapeHtml(item.ProductName)}" style="margin-top:34px">
+        <div class="cart-item-img">
+          ${item.ImageURL ? '<img src="' + escapeHtml(item.ImageURL) + '" alt="' + escapeHtml(item.ProductName) + '">' : escapeHtml(item.ProductName.charAt(0))}
+        </div>
+        <div class="cart-item-details">
+          <div class="cart-item-name">${escapeHtml(item.ProductName)}</div>
+          <div class="cart-item-price">${formatPeso(item.UnitPrice)}</div>
+          <div class="cart-item-controls">
+            <button class="btn btn-outline btn-sm qty-btn" data-action="dec" data-id="${item.ProductID}" aria-label="Decrease quantity">−</button>
+            <input type="number" min="1" max="99" value="${item.Quantity}"
+                   class="qty-input" aria-label="Quantity"
+                   data-action="qty" data-id="${item.ProductID}">
+            <button class="btn btn-outline btn-sm qty-btn" data-action="inc" data-id="${item.ProductID}" aria-label="Increase quantity">+</button>
+            <button class="btn btn-sm btn-danger" data-action="remove" data-id="${item.ProductID}">Remove</button>
+          </div>
+        </div>
+        <div class="cart-item-subtotal">${formatPeso(item.Subtotal)}</div>
+      </div>
+    `).join('');
+    recompute();
+  }
+
+  async function reload() {
+    try {
+      cartView = await KPHCart.get();
+      loading.hidden = true;
+      if (!cartView.items || cartView.items.length === 0) {
+        empty.hidden = false;
+        items.hidden = true;
+        KPHUI.setBadge('cart', 0);
+        return;
+      }
+      empty.hidden = true;
+      items.hidden = false;
+      render();
+      KPHUI.setBadge('cart', cartView.count);
+      authWarning.hidden = false;
+    } catch (err) {
+      loading.hidden = true;
+      error.hidden = false;
+    }
+  }
+
+  async function setQty(id, qty) {
+    if (qty < 1 || qty > 99) { showAlert('Quantity must be between 1 and 99.'); return; }
+    try {
+      cartView = await KPHCart.updateQty(id, qty);
+      showAlert('');
+      render();
+      KPHUI.setBadge('cart', cartView.count);
+    } catch (err) {
+      showAlert(err.message || 'Could not update quantity.');
+    }
+  }
+
+  async function handleAction(e) {
+    const el = e.target.closest('[data-action]');
+    if (!el) return;
+    const action = el.dataset.action;
+    const id = parseInt(el.dataset.id || el.closest('.cart-item').dataset.productId, 10);
+
+    if (action === 'select') { recompute(); return; }
+
+    if (action === 'qty') return; // handled on change
+
+    if (action === 'inc' || action === 'dec') {
+      const input = el.closest('.cart-item').querySelector('.qty-input');
+      const current = parseInt(input.value, 10) || 1;
+      await setQty(id, action === 'inc' ? current + 1 : current - 1);
+      return;
+    }
+
+    if (action === 'remove') {
+      try {
+        cartView = await KPHCart.remove(id);
+        if (window.KPHActivity) KPHActivity.track('cart_removed', 'product', id, 'Removed from cart', { product_id: id });
+        showAlert('');
+        if (!cartView.items || cartView.items.length === 0) {
+          empty.hidden = false; items.hidden = true; KPHUI.setBadge('cart', 0);
+        } else { render(); KPHUI.setBadge('cart', cartView.count); }
+      } catch (err) { showAlert(err.message || 'Could not remove item.'); }
+      return;
+    }
+  }
+
+  itemsList.addEventListener('click', handleAction);
+  itemsList.addEventListener('change', function (e) {
+    const input = e.target.closest('.qty-input');
+    if (input) setQty(parseInt(input.dataset.id, 10), parseInt(input.value, 10));
+    if (e.target.matches('[data-action="select"]')) recompute();
+  });
+
+  selectAll.addEventListener('change', function () {
+    itemsList.querySelectorAll('[data-action="select"]').forEach(function (cb) { cb.checked = selectAll.checked; });
+    recompute();
+  });
+
+  clearBtn.addEventListener('click', async function () {
+    if (clearBtn.dataset.confirm !== '1') {
+      clearBtn.dataset.confirm = '1';
+      clearBtn.textContent = 'Click again to clear';
+      clearTimeout(clearTimer);
+      clearTimer = setTimeout(function () {
+        clearBtn.dataset.confirm = '0';
+        clearBtn.textContent = 'Clear Cart';
+      }, 3000);
+      return;
+    }
+    clearBtn.dataset.confirm = '0';
+    clearBtn.textContent = 'Clear Cart';
+    try {
+      await KPHCart.clear();
+      showAlert('');
+      await reload();
+    } catch (err) { showAlert(err.message || 'Could not clear cart.'); }
+  });
+
+  checkoutBtn.addEventListener('click', function () {
+    if (checkoutBtn.disabled) return;
+    const selected = Array.prototype.filter.call(
+      itemsList.querySelectorAll('[data-action="select"]'), function (cb) { return cb.checked; }
+    );
+    if (!selected.length) { showAlert('Select at least one item to checkout.'); return; }
+    if (window.KPHActivity) {
+      KPHActivity.track('checkout_started', 'cart', null, 'Started checkout', {
+        item_count: selected.length, subtotal: parseFloat(subtotalEl.textContent.replace(/[^0-9.]/g, '')) || 0
+      });
+    }
+    location.href = 'checkout.html';
+  });
+
+  reload();
+})();
+</script>
+</body>
+</html>

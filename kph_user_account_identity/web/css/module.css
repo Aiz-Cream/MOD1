@@ -1,0 +1,146 @@
+/* ==========================================================
+   module.css  |  MY OWN STYLEE
+
+/* The header menu is filled in by kph-ui.js a moment after the page opens. */
+@media (max-width: 900px) {
+  .kph-nav { min-height: 36.5px; }
+}
+
+/* The kit's .form and .card styles would otherwise show elements marked hidden */
+[hidden] { display: none !important; }
+
+/* An empty "Loading..." line should not leave a blank gap above the content */
+.status-msg:empty { display: none; }
+
+/* "or" line and Google / Facebook buttons on Login and Register */
+.or-line { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 14px; }
+.or-line::before, .or-line::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+.social-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* 6-digit code box */
+.code-input { letter-spacing: 8px; text-align: center; font-size: 20px; font-weight: 600; }
+.test-code { color: var(--muted); font-size: 14px; }
+.test-code b { color: var(--text); letter-spacing: 2px; }
+
+/* Header links for modules not present in this repo: shown but not clickable */
+.kph-nav a[aria-disabled="true"], .kph-icons a[aria-disabled="true"] { opacity: .5; cursor: default; }
+
+/* Password show/hide toggle (login, register, reset, delete, account security) */
+.pw-wrap { position: relative; }
+.pw-wrap input { padding-right: 44px; }
+.pw-toggle { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px;
+  border: 0; background: transparent; color: var(--muted); cursor: pointer; display: grid; place-items: center;
+  border-radius: var(--radius-sm); }
+.pw-toggle:hover { background: var(--soft); color: var(--text); }
+.pw-toggle svg { width: 20px; height: 20px; }
+
+/* Password strength meter + requirements (new passwords only) */
+.pw-meter { display: flex; gap: 4px; margin-top: 8px; }
+.pw-meter span { flex: 1; height: 4px; border-radius: 2px; background: var(--border); }
+.pw-meter span.on.weak { background: var(--bad); }
+.pw-meter span.on.medium { background: var(--orange); }
+.pw-meter span.on.strong { background: #16a34a; }
+.pw-strength-label { font-size: 12px; font-weight: 600; color: var(--muted); }
+.pw-strength-label:not(:empty) { margin-top: 4px; display: inline-block; }
+.pw-requirements { list-style: none; padding: 0; margin: 6px 0 0; font-size: 12px; color: var(--muted); }
+.pw-requirements li { display: flex; gap: 6px; align-items: center; }
+.pw-requirements li::before { content: "\2022"; }
+.pw-requirements li.ok { color: #16a34a; }
+.pw-requirements li.ok::before { content: "\2713"; }
+
+/* Profile navigation groups (section headers, not clickable) */
+.menu-group { padding: 4px 0; }
+.menu-group + .menu-group { border-top: 1px solid var(--border); margin-top: 4px; padding-top: 8px; }
+.menu-group-title { margin: 4px 4px 2px; font-size: 12px; text-transform: uppercase; letter-spacing: .04em;
+  color: var(--muted); font-weight: 600; }
+
+/* ==========================================================
+   Sticky footer (Feature H)
+   Short pages: main grows and pushes the footer to the bottom.
+   Long pages: footer follows the content (kph.css margin-top).
+   kph.css colors / header / footer base are left untouched.
+   ========================================================== */
+body { min-height: 100vh; display: flex; flex-direction: column; }
+body > main { flex: 1 0 auto; }
+
+/* ==========================================================
+   Commerce pages (checkout, purchases, seller, admin, help)
+   ========================================================== */
+.order-card { display: grid; gap: 10px; }
+.order-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.order-meta { color: var(--muted); font-size: 13px; }
+.order-items { display: grid; gap: 8px; }
+.order-item { display: flex; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid var(--border); }
+.order-item img, .order-item .ph { width: 56px; height: 56px; object-fit: cover; border-radius: var(--radius-sm); background: var(--soft); display: grid; place-items: center; color: var(--muted); font-size: 12px; }
+.order-item .oi-name { flex: 1; min-width: 0; }
+.order-item .oi-name b { display: block; }
+.order-item .oi-qty { color: var(--muted); font-size: 13px; }
+
+.status-pill { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--soft); color: var(--text); }
+.status-pill.Pending { background: #fff4e5; color: #b45309; }
+.status-pill.Confirmed, .status-pill.Processing { background: #e0f2fe; color: #0369a1; }
+.status-pill.Shipped, .status-pill.OutForDelivery { background: #ede9fe; color: #6d28d9; }
+.status-pill.Delivered { background: #dcfce7; color: #15803d; }
+.status-pill.Cancelled, .status-pill.Refunded { background: #fee2e2; color: #b91c1c; }
+
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.timeline li { display: flex; gap: 10px; font-size: 14px; color: var(--muted); }
+.timeline li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--orange); margin-top: 6px; flex: 0 0 auto; }
+.timeline li b { color: var(--text); }
+
+.checkout-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; align-items: start; }
+@media (max-width: 860px) { .checkout-grid { grid-template-columns: 1fr; } }
+.summary-row { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; }
+.summary-row.total { border-top: 1px solid var(--border); margin-top: 8px; padding-top: 10px; font-weight: 700; font-size: 16px; }
+
+.help-search { max-width: 420px; }
+.faq details { border-bottom: 1px solid var(--border); padding: 10px 0; }
+.faq summary { cursor: pointer; font-weight: 600; }
+.faq details p { margin: 8px 0 0; color: var(--muted); }
+
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.stat-card { padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
+.stat-card b { display: block; font-size: 24px; }
+.stat-card span { color: var(--muted); font-size: 13px; }
+
+.table-wrap { overflow-x: auto; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.data-table th, .data-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.data-table th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+
+.checkout-item { display: flex; gap: 10px; align-items: center; padding: 6px 0; }
+.checkout-item img, .checkout-item .ph { width: 44px; height: 44px; object-fit: cover; border-radius: var(--radius-sm); background: var(--soft); display: grid; place-items: center; color: var(--muted); font-size: 11px; }
+.checkout-item .ci-name { flex: 1; min-width: 0; }
+
+/* Shared layout helpers */
+.grow { flex: 1; min-width: 0; }
+
+/* Two-column form grid (checkout, seller, admin) */
+.field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 640px) { .field-grid { grid-template-columns: 1fr; } }
+.field-grid .span-2 { grid-column: 1 / -1; }
+
+/* Cart line (cart.html) */
+.cart-item { display: flex; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.cart-item .ci-body { flex: 1; min-width: 0; }
+.cart-item .ci-name { display: block; font-weight: 600; overflow-wrap: anywhere; }
+.cart-item .ci-price { color: var(--muted); font-size: 13px; }
+
+/* Quantity stepper */
+.qty-input { display: inline-flex; align-items: center; gap: 4px; }
+.qty-input input { width: 60px; text-align: center; }
+.qty-btn { width: 34px; height: 34px; padding: 0; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--card); color: var(--text); font-size: 16px; line-height: 1; cursor: pointer; }
+.qty-btn:hover { background: var(--soft); }
+
+/* Tabs (activity.html) */
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.tabs button { cursor: pointer; }
+
+/* Activity list rows */
+.act-row { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.act-row .act-thumb { width: 44px; height: 44px; object-fit: cover; border-radius: var(--radius-sm); background: var(--soft); }
+
+/* Danger button (used beside normal .btn) */
+.btn.btn-danger { background: #dc2626; color: #fff; border-color: #dc2626; }
+.btn.btn-danger:hover { background: #b91c1c; border-color: #b91c1c; }

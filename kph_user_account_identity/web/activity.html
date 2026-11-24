@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Activity history | KameraPH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/kph.css">
+  <link rel="stylesheet" href="css/module.css">
+  <script>try{var t=localStorage.getItem("kph-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <style>
+    .tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tabs button { flex: 1; min-width: 0; }
+    .tabs button.active { background: var(--orange); color: #fff; border-color: var(--orange); }
+    .act-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .act-row:last-child { border-bottom: 0; }
+    .act-row .grow { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+    .act-thumb { width: 56px; height: 56px; border-radius: var(--radius-sm); background: var(--soft); flex: none; display: grid; place-items: center; overflow: hidden; color: var(--muted); font-size: 12px; }
+    .act-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .act-row a { color: var(--text); }
+  </style>
+</head>
+<body>
+<!-- ===== KAMERAPH HEADER (copy as is, do not edit) ===== -->
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="kph-topbar">
+  <div class="kph-topbar-inner">
+    <span>Free Shipping on orders over ₱2,000</span>
+    <div class="kph-topbar-mid hide-mobile">
+      <span>100% Authentic Product</span>
+      <span>1 Year Warranty</span>
+      <span>Easy Return</span>
+    </div>
+    <span class="hide-mobile">Need Help? 0999 999 9999</span>
+  </div>
+</div>
+<header class="kph-header">
+  <div class="kph-header-inner">
+    <a class="kph-logo" href="#" aria-label="KameraPH home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </a>
+    <nav class="kph-nav" id="kph-nav" aria-label="Main"></nav>
+    <div class="kph-search" id="kph-search">
+      <form id="kph-search-form" role="search">
+        <input type="search" placeholder="Search cameras, lenses, accessories" aria-label="Search">
+        <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      </form>
+    </div>
+    <div class="kph-icons">
+      <button class="icon-btn only-mobile" id="kph-search-toggle" type="button" aria-label="Open search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <button class="icon-btn" id="kph-theme-toggle" type="button" aria-label="Switch between light and dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <a class="icon-btn" data-kph-link="account" href="#" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+      <a class="icon-btn" data-kph-link="wishlist" href="#" aria-label="Wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg><span class="dot" hidden></span></a>
+      <a class="icon-btn" data-kph-link="cart" href="#" aria-label="Cart"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg><span class="dot" hidden></span></a>
+    </div>
+  </div>
+</header>
+<!-- ===== END HEADER ===== -->
+
+<main id="main" class="container">
+  <div style="max-width:720px;margin:0 auto" class="stack">
+    <h2 class="section-title">Activity history</h2>
+    <div class="tabs" id="tabs">
+      <button class="btn btn-sm btn-outline active" type="button" data-tab="all">All</button>
+      <button class="btn btn-sm btn-outline" type="button" data-tab="viewed">Recently viewed</button>
+      <button class="btn btn-sm btn-outline" type="button" data-tab="searches">Searches</button>
+      <button class="btn btn-sm btn-outline" type="button" data-tab="shopping">Shopping</button>
+      <button class="btn btn-sm btn-outline" type="button" data-tab="orders">Orders</button>
+      <button class="btn btn-sm btn-outline" type="button" data-tab="account">Account</button>
+    </div>
+    <p id="status" class="status-msg"></p>
+    <section class="card" id="panel"></section>
+    <div id="clearRow"><button class="btn btn-sm btn-outline" type="button" id="clear" style="color:var(--bad)">Clear this history</button></div>
+    <p class="muted"><a href="profile.html">Back to my account</a></p>
+  </div>
+</main>
+
+<!-- ===== KAMERAPH FOOTER (copy as is, do not edit) ===== -->
+<footer class="kph-footer">
+  <div class="kph-footer-inner">
+    <div class="kph-logo">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </div>
+    <p class="kph-footer-note only-mobile">Your one-stop shop for professional gear.</p>
+    <p class="kph-footer-copy">© 2026 KameraPH. All rights reserved.</p>
+  </div>
+</footer>
+<!-- ===== END FOOTER ===== -->
+
+<script src="js/config.js?v=3"></script>
+<script src="js/api.js?v=3"></script>
+<script src="js/kph-ui.js?v=3"></script>
+<script src="js/demo.js?v=3"></script>
+<script>
+(function () {
+  var tab = "all";
+  var data = [];
+  var scope = "own";
+
+  var LABELS = {
+    product_viewed: "Viewed product",
+    product_searched: "Search",
+    category_viewed: "Viewed category",
+    cart_added: "Added to cart",
+    cart_removed: "Removed from cart",
+    wishlist_added: "Added to wishlist",
+    wishlist_removed: "Removed from wishlist",
+    checkout_started: "Started checkout",
+    order_placed: "Placed order",
+    order_cancelled: "Cancelled order",
+    profile_updated: "Updated profile",
+    address_saved: "Saved address",
+    seller_application_submitted: "Seller application"
+  };
+
+  var EMPTY = {
+    all: "No activity yet.",
+    viewed: "No products viewed yet. Tap a product on the home page.",
+    searches: "No searches yet.",
+    shopping: "No shopping activity yet.",
+    orders: "No order activity yet.",
+    account: "No account activity yet."
+  };
+
+  function when(iso) {
+    var d = new Date(String(iso).replace(" ", "T"));
+    return isNaN(d) ? "" : d.toLocaleString("en-PH", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" });
+  }
+
+  function draw() {
+    document.querySelectorAll("#tabs button").forEach(function (b) {
+      b.classList.toggle("active", b.dataset.tab === tab);
+    });
+    var panel = document.getElementById("panel");
+    var list = data;
+    panel.hidden = list.length === 0;
+    panel.innerHTML = list.length ? list.map(function (a) {
+      var label = a.Description || LABELS[a.EventType] || a.EventType;
+      var who = (scope === "all" && a.Username) ? ' <span class="badge">@' + escapeHtml(a.Username) + '</span>' : "";
+      return '<div class="act-row"><div class="grow"><b>' + escapeHtml(label) + '</b>' + who + '<br><span class="muted">' + escapeHtml(when(a.CreatedAt)) + '</span></div></div>';
+    }).join("") : "";
+    document.getElementById("status").textContent = list.length ? "" : (EMPTY[tab] || "No activity.");
+    document.getElementById("clearRow").hidden = list.length === 0 || scope === "all";
+  }
+
+  async function load() {
+    var status = document.getElementById("status");
+    status.className = "status-msg";
+    try {
+      var r = await apiGet("/activity.php?type=" + encodeURIComponent(tab));
+      data = (r && r.activity) ? r.activity : [];
+      scope = (r && r.scope) || "own";
+      draw();
+    } catch (err) {
+      data = [];
+      document.getElementById("panel").hidden = true;
+      document.getElementById("panel").innerHTML = "";
+      document.getElementById("clearRow").hidden = true;
+      status.className = "alert alert-error";
+      status.textContent = err.message;
+    }
+  }
+
+  document.getElementById("tabs").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-tab]");
+    if (b) { tab = b.dataset.tab; load(); }
+  });
+
+  document.getElementById("clear").addEventListener("click", async function () {
+    try {
+      await apiSend("DELETE", "/activity.php?type=" + encodeURIComponent(tab));
+      await load();
+    } catch (err) { document.getElementById("status").textContent = err.message; }
+  });
+
+  load();
+  KPHDemo.syncBadges();
+})();
+</script>
+</body>
+</html>

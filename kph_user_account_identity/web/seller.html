@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Seller Dashboard | KameraPH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/kph.css">
+  <link rel="stylesheet" href="css/module.css">
+  <script>try{var t=localStorage.getItem("kph-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<!-- ===== KAMERAPH HEADER (copy as is, do not edit) ===== -->
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="kph-topbar">
+  <div class="kph-topbar-inner">
+    <span>Free Shipping on orders over ₱2,000</span>
+    <div class="kph-topbar-mid hide-mobile">
+      <span>100% Authentic Product</span>
+      <span>1 Year Warranty</span>
+      <span>Easy Return</span>
+    </div>
+    <span class="hide-mobile">Need Help? 0999 999 9999</span>
+  </div>
+</div>
+<header class="kph-header">
+  <div class="kph-header-inner">
+    <a class="kph-logo" href="#" aria-label="KameraPH home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </a>
+    <nav class="kph-nav" id="kph-nav" aria-label="Main"></nav>
+    <div class="kph-search" id="kph-search">
+      <form id="kph-search-form" role="search">
+        <input type="search" placeholder="Search cameras, lenses, accessories" aria-label="Search">
+        <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      </form>
+    </div>
+    <div class="kph-icons">
+      <button class="icon-btn only-mobile" id="kph-search-toggle" type="button" aria-label="Open search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <button class="icon-btn" id="kph-theme-toggle" type="button" aria-label="Switch between light and dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <a class="icon-btn" data-kph-link="account" href="#" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+      <a class="icon-btn" data-kph-link="wishlist" href="#" aria-label="Wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg><span class="dot" hidden></span></a>
+      <a class="icon-btn" data-kph-link="cart" href="#" aria-label="Cart"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg><span class="dot" hidden></span></a>
+    </div>
+  </div>
+</header>
+<!-- ===== END HEADER ===== -->
+
+<main id="main" class="container stack">
+  <h2 class="section-title">Seller Dashboard</h2>
+
+  <div id="loading" class="card" style="text-align:center;padding:48px;color:var(--muted)">Loading...</div>
+
+  <div id="gate" hidden class="card">
+    <p id="gateMsg">You need an approved seller account to access this page.</p>
+    <a href="become-seller.html" class="btn btn-outline btn-sm">Become a seller</a>
+  </div>
+
+  <div id="dash" hidden>
+    <div class="row" style="gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <button class="btn btn-sm active" data-tab="products" id="tabProducts">Products</button>
+      <button class="btn btn-sm" data-tab="orders" id="tabOrders">Orders</button>
+      <a class="btn btn-sm" href="analytics.html">Insights</a>
+    </div>
+
+    <div id="alert" class="alert alert-error" hidden style="margin-top:12px"></div>
+
+    <section id="panelProducts" class="stack">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:nowrap;clear:both">
+        <h3 style="margin:0">My Products</h3>
+        <button type="button" class="btn btn-sm" id="newProductBtn" style="flex:none;white-space:nowrap">Add product</button>
+      </div>
+
+      <form id="productForm" class="card" hidden style="padding:16px">
+        <h3 style="margin-top:0" id="productFormTitle">Add product</h3>
+        <input type="hidden" id="pfId">
+        <div class="field-grid">
+          <div class="span-2"><label for="pfName">Product name</label><input id="pfName" class="input" required maxlength="255"></div>
+          <div class="span-2"><label for="pfDesc">Description</label><textarea id="pfDesc" class="input" rows="3" maxlength="5000"></textarea></div>
+          <div><label for="pfCategory">Category</label><select id="pfCategory" class="input"></select></div>
+          <div><label for="pfStock">Stock</label><input id="pfStock" type="number" min="0" max="1000000" class="input" required></div>
+          <div><label for="pfPrice">Base price (₱)</label><input id="pfPrice" type="number" step="0.01" min="0" class="input" required></div>
+          <div><label for="pfCompare">Compare-at price (₱)</label><input id="pfCompare" type="number" step="0.01" min="0" class="input"></div>
+          <div class="span-2"><label for="pfImage">Image (optional)</label><input id="pfImage" type="file" accept="image/jpeg,image/png,image/webp"></div>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px">
+          <button type="submit" class="btn" id="pfSubmit">Save product</button>
+          <button type="button" class="btn btn-outline" id="pfCancel">Cancel</button>
+        </div>
+      </form>
+
+      <div id="productList" class="stack"></div>
+    </section>
+
+    <section id="panelOrders" class="stack" hidden>
+      <h3 style="margin:0">My Orders</h3>
+      <div id="orderList" class="stack"></div>
+    </section>
+  </div>
+</main>
+
+<!-- ===== KAMERAPH FOOTER (copy as is, do not edit) ===== -->
+<footer class="kph-footer">
+  <div class="kph-footer-inner">
+    <div class="kph-logo">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </div>
+    <p class="kph-footer-note only-mobile">Your one-stop shop for professional gear.</p>
+    <p class="kph-footer-copy">© 2026 KameraPH. All rights reserved.</p>
+  </div>
+</footer>
+<!-- ===== END FOOTER ===== -->
+
+<script src="js/config.js?v=3"></script>
+<script src="js/api.js?v=3"></script>
+<script src="js/kph-ui.js?v=3"></script>
+<script src="js/demo.js?v=3"></script>
+<script src="js/store.js?v=1"></script>
+<script src="js/activity.js?v=1"></script>
+<script>
+(function () {
+  var loading = document.getElementById("loading");
+  var gate = document.getElementById("gate");
+  var gateMsg = document.getElementById("gateMsg");
+  var dash = document.getElementById("dash");
+  var alertBox = document.getElementById("alert");
+
+  var productList = document.getElementById("productList");
+  var orderList = document.getElementById("orderList");
+  var productForm = document.getElementById("productForm");
+  var formTitle = document.getElementById("productFormTitle");
+  var pfId = document.getElementById("pfId");
+  var pfName = document.getElementById("pfName");
+  var pfDesc = document.getElementById("pfDesc");
+  var pfCategory = document.getElementById("pfCategory");
+  var pfStock = document.getElementById("pfStock");
+  var pfPrice = document.getElementById("pfPrice");
+  var pfCompare = document.getElementById("pfCompare");
+  var pfImage = document.getElementById("pfImage");
+  var pfSubmit = document.getElementById("pfSubmit");
+
+  var categories = [];
+  var products = [];
+  var orders = [];
+
+  function commerceUrl() {
+    var k = window.KPH || {};
+    return String(k.commerceApi || k.cartApi || k.api || "").replace(/\/$/, "");
+  }
+
+  async function api(method, path, body, isForm) {
+    var token = KPHAuth.getToken();
+    var opts = { method: method, headers: {} };
+    if (isForm) {
+      opts.body = body;
+    } else {
+      opts.headers["Content-Type"] = "application/json";
+      if (body) opts.body = JSON.stringify(body);
+    }
+    if (token) opts.headers["Authorization"] = "Bearer " + token;
+    var res = await fetch(commerceUrl() + path, opts);
+    var data = null;
+    try { data = await res.json(); } catch (e) { data = null; }
+    if (!res.ok) {
+      var err = new Error((data && (data.error || data.message)) || ("HTTP " + res.status));
+      err.status = res.status;
+      throw err;
+    }
+    return data;
+  }
+
+  function showAlert(msg) {
+    alertBox.textContent = msg || "";
+    alertBox.hidden = !msg;
+  }
+
+  function catName(id) {
+    for (var i = 0; i < categories.length; i++) {
+      if (String(categories[i].id) === String(id)) return categories[i].name;
+    }
+    return "";
+  }
+
+  function approvalBadge(p) {
+    var s = p.ApprovalStatus;
+    var cls = s === "Approved" ? "Delivered" : (s === "Rejected" ? "Cancelled" : "Pending");
+    return '<span class="status-pill ' + cls + '">' + escapeHtml(s) + "</span>";
+  }
+
+  function renderProducts() {
+    if (!products.length) {
+      productList.innerHTML = '<div class="card"><p class="muted">No products yet. Add your first product.</p></div>';
+      return;
+    }
+    productList.innerHTML = products.map(function (p) {
+      return `
+        <div class="card">
+          <div class="order-head">
+            <div>
+              <b>${escapeHtml(p.ProductName)}</b>
+              <div class="order-meta">${formatPeso(p.BasePrice)} · stock ${p.Stock} · ${escapeHtml(catName(p.CategoryID)) || "—"}</div>
+            </div>
+            <div style="text-align:right">
+              <span class="status-pill ${escapeHtml(p.Status)}">${escapeHtml(p.Status)}</span>
+              ${approvalBadge(p)}
+            </div>
+          </div>
+          <div class="row" style="margin-top:10px;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-sm" data-edit="${p.ProductID}">Edit</button>
+            ${p.ApprovalStatus === "Rejected" ? `<button class="btn btn-sm" data-resubmit="${p.ProductID}">Resubmit</button>` : ""}
+            ${p.Status === "Active" ? `<button class="btn btn-sm btn-outline" data-setstatus="${p.ProductID}" data-status="Inactive">Set Inactive</button>` : ""}
+            ${p.Status === "Inactive" ? `<button class="btn btn-sm btn-outline" data-setstatus="${p.ProductID}" data-status="Active">Set Active</button>` : ""}
+            <button class="btn btn-sm btn-danger" data-setstatus="${p.ProductID}" data-status="Inactive">Remove</button>
+          </div>
+        </div>`;
+    }).join("");
+  }
+
+  function renderOrders() {
+    if (!orders.length) {
+      orderList.innerHTML = '<div class="card"><p class="muted">No orders yet.</p></div>';
+      return;
+    }
+    orderList.innerHTML = orders.map(function (o) {
+      var items = (o.Items || []).map(function (it) {
+        return `<div class="checkout-item"><div class="ph">${it.ImageURL ? '<img src="' + escapeHtml(it.ImageURL) + '" alt="">' : "Photo"}</div><div class="ci-name"><b>${escapeHtml(it.ProductName)}</b><div class="order-meta">${formatPeso(it.UnitPrice)} × ${it.Quantity}</div></div></div>`;
+      }).join("");
+      return `
+        <div class="card">
+          <div class="order-head">
+            <div>
+              <b>${escapeHtml(o.OrderNumber)}</b>
+              <div class="order-meta">${formatDate(o.CreatedAt)} · buyer #${o.UserID}</div>
+            </div>
+            <div style="text-align:right">
+              <span class="status-pill ${escapeHtml(o.OrderStatus)}">${escapeHtml(o.OrderStatus)}</span>
+              <div class="order-meta">Payment: ${escapeHtml(o.PaymentStatus)}</div>
+            </div>
+          </div>
+          <div class="order-items" style="margin-top:10px">${items}</div>
+          <div class="row" style="margin-top:10px;gap:8px;flex-wrap:wrap;align-items:center">
+            <select class="input" style="max-width:220px" data-status-select="${o.OrderID}">
+              <option value="">Change status…</option>
+              <option value="Confirmed">Confirmed</option>
+              <option value="Processing">Processing</option>
+              <option value="Shipped">Shipped</option>
+              <option value="OutForDelivery">Out for delivery</option>
+              <option value="Delivered">Delivered</option>
+            </select>
+            <label style="display:flex;gap:6px;align-items:center;font-size:13px"><input type="checkbox" data-cod="${o.OrderID}"> COD collected</label>
+            <button class="btn btn-sm" data-update-status="${o.OrderID}">Save status</button>
+            ${(o.OrderStatus === "Delivered" && o.PaymentStatus === "Unpaid") ? `<button class="btn btn-sm" data-confirm-cod="${o.OrderID}">Confirm COD payment</button>` : ""}
+          </div>
+        </div>`;
+    }).join("");
+  }
+
+  function openProductForm(p) {
+    pfId.value = p ? p.ProductID : "";
+    pfName.value = p ? p.ProductName : "";
+    pfDesc.value = p ? (p.Description || "") : "";
+    pfCategory.value = p && p.CategoryID ? String(p.CategoryID) : (categories[0] ? String(categories[0].id) : "");
+    pfStock.value = p ? p.Stock : 0;
+    pfPrice.value = p ? p.BasePrice : "";
+    pfCompare.value = p && p.CompareAtPrice ? p.CompareAtPrice : "";
+    pfImage.value = "";
+    formTitle.textContent = p ? "Edit product" : "Add product";
+    pfSubmit.textContent = p ? "Save changes" : "Save product";
+    productForm.hidden = false;
+    productForm.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function buildCategoryOptions() {
+    pfCategory.innerHTML = categories.map(function (c) {
+      return `<option value="${c.id}">${escapeHtml(c.name)}</option>`;
+    }).join("");
+  }
+
+  async function loadProducts() {
+    var res = await api("GET", "/sellers.php?products=1");
+    products = res.products || [];
+    renderProducts();
+  }
+
+  async function loadOrders() {
+    var res = await api("GET", "/sellers.php?orders=1");
+    orders = res.orders || [];
+    renderOrders();
+  }
+
+  async function refreshAll() {
+    await Promise.all([loadProducts(), loadOrders()]);
+  }
+
+  async function init() {
+    if (!KPHAuth.getToken()) {
+      loading.hidden = true;
+      gate.hidden = false;
+      gateMsg.textContent = "Please log in to access the seller dashboard.";
+      return;
+    }
+    try {
+      categories = (await window.KPHStore.categories()) || [];
+      buildCategoryOptions();
+      await refreshAll();
+      loading.hidden = true;
+      dash.hidden = false;
+    } catch (e) {
+      loading.hidden = true;
+      gate.hidden = false;
+      gateMsg.textContent = e.message || "You need an approved seller account to access this page.";
+    }
+  }
+
+  document.getElementById("tabProducts").addEventListener("click", function () {
+    document.getElementById("panelProducts").hidden = false;
+    document.getElementById("panelOrders").hidden = true;
+  });
+  document.getElementById("tabOrders").addEventListener("click", function () {
+    document.getElementById("panelProducts").hidden = true;
+    document.getElementById("panelOrders").hidden = false;
+  });
+
+  document.getElementById("newProductBtn").addEventListener("click", function () { openProductForm(null); });
+  document.getElementById("pfCancel").addEventListener("click", function () { productForm.hidden = true; });
+
+  productList.addEventListener("click", async function (e) {
+    var edit = e.target.closest("[data-edit]");
+    var resubmit = e.target.closest("[data-resubmit]");
+    var setStatus = e.target.closest("[data-setstatus]");
+    try {
+      if (edit) {
+        var p = products.find(function (x) { return String(x.ProductID) === edit.dataset.edit; });
+        if (p) openProductForm(p);
+      } else if (resubmit) {
+        await api("POST", "/products.php?action=resubmit", { ProductID: parseInt(resubmit.dataset.resubmit, 10) });
+        await loadProducts();
+      } else if (setStatus) {
+        await api("DELETE", "/products.php?id=" + setStatus.dataset.setstatus);
+        await loadProducts();
+      }
+    } catch (err) {
+      showAlert(err.message || "Action failed.");
+    }
+  });
+
+  orderList.addEventListener("click", async function (e) {
+    var save = e.target.closest("[data-update-status]");
+    var confirmCod = e.target.closest("[data-confirm-cod]");
+    try {
+      if (save) {
+        var id = parseInt(save.dataset.updateStatus, 10);
+        var sel = orderList.querySelector('[data-status-select="' + id + '"]');
+        var cod = orderList.querySelector('[data-cod="' + id + '"]');
+        if (!sel.value) { showAlert("Choose a status first."); return; }
+        await api("PUT", "/orders.php?id=" + id, { OrderStatus: sel.value, CodCollected: cod ? cod.checked : undefined });
+        await loadOrders();
+      } else if (confirmCod) {
+        await api("POST", "/orders.php?action=confirm-cod-payment", { OrderID: parseInt(confirmCod.dataset.confirmCod, 10) });
+        await loadOrders();
+      }
+    } catch (err) {
+      showAlert(err.message || "Action failed.");
+    }
+  });
+
+  productForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    showAlert("");
+    var payload = {
+      ProductName: pfName.value.trim(),
+      Description: pfDesc.value.trim(),
+      CategoryID: pfCategory.value ? parseInt(pfCategory.value, 10) : null,
+      BasePrice: parseFloat(pfPrice.value),
+      Stock: parseInt(pfStock.value, 10)
+    };
+    var cmp = pfCompare.value.trim();
+    if (cmp) payload.CompareAtPrice = parseFloat(cmp);
+
+    pfSubmit.disabled = true;
+    try {
+      if (pfImage.files && pfImage.files[0]) {
+        var fd = new FormData();
+        fd.append("Image", pfImage.files[0]);
+        var up = await api("POST", "/products.php?action=upload-image", fd, true);
+        payload.ImageURL = up.ImageURL;
+      }
+
+      if (pfId.value) {
+        await api("PUT", "/products.php?id=" + pfId.value, payload);
+      } else {
+        await api("POST", "/products.php", payload);
+      }
+      productForm.hidden = true;
+      await loadProducts();
+    } catch (err) {
+      showAlert(err.message || "Could not save product.");
+    } finally {
+      pfSubmit.disabled = false;
+    }
+  });
+
+  init();
+})();
+</script>
+</body>
+</html>

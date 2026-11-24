@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Purchases | KameraPH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/kph.css">
+  <link rel="stylesheet" href="css/module.css">
+  <script>try{var t=localStorage.getItem("kph-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<!-- ===== KAMERAPH HEADER (copy as is, do not edit) ===== -->
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="kph-topbar">
+  <div class="kph-topbar-inner">
+    <span>Free Shipping on orders over ₱2,000</span>
+    <div class="kph-topbar-mid hide-mobile">
+      <span>100% Authentic Product</span>
+      <span>1 Year Warranty</span>
+      <span>Easy Return</span>
+    </div>
+    <span class="hide-mobile">Need Help? 0999 999 9999</span>
+  </div>
+</div>
+<header class="kph-header">
+  <div class="kph-header-inner">
+    <a class="kph-logo" href="#" aria-label="KameraPH home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </a>
+    <nav class="kph-nav" id="kph-nav" aria-label="Main"></nav>
+    <div class="kph-search" id="kph-search">
+      <form id="kph-search-form" role="search">
+        <input type="search" placeholder="Search cameras, lenses, accessories" aria-label="Search">
+        <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      </form>
+    </div>
+    <div class="kph-icons">
+      <button class="icon-btn only-mobile" id="kph-search-toggle" type="button" aria-label="Open search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <button class="icon-btn" id="kph-theme-toggle" type="button" aria-label="Switch between light and dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <a class="icon-btn" data-kph-link="account" href="#" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+      <a class="icon-btn" data-kph-link="wishlist" href="#" aria-label="Wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg><span class="dot" hidden></span></a>
+      <a class="icon-btn" data-kph-link="cart" href="#" aria-label="Cart"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg><span class="dot" hidden></span></a>
+    </div>
+  </div>
+</header>
+<!-- ===== END HEADER ===== -->
+
+<main id="main" class="container stack">
+  <div class="row" style="justify-content:space-between;align-items:baseline">
+    <h2 class="section-title" style="margin:0">My Purchases</h2>
+    <a href="search.html" class="btn btn-outline btn-sm">Continue shopping</a>
+  </div>
+
+  <div id="loading" class="card" style="text-align:center;padding:48px;color:var(--muted)">Loading your orders...</div>
+
+  <div id="error" hidden class="card" style="text-align:center;padding:32px">
+    <p style="margin-bottom:16px">Please log in to see your purchases.</p>
+    <a href="login.html" class="btn btn-primary">Log in</a>
+  </div>
+
+  <div id="empty" hidden class="card">
+    <div class="cart-empty">
+      <p style="margin:0;font-size:16px">You have no orders yet.</p>
+      <p style="margin-top:8px"><a href="search.html" class="btn btn-outline btn-sm">Start shopping</a></p>
+    </div>
+  </div>
+
+  <div id="list" class="stack" hidden></div>
+</main>
+
+<!-- ===== KAMERAPH FOOTER (copy as is, do not edit) ===== -->
+<footer class="kph-footer">
+  <div class="kph-footer-inner">
+    <div class="kph-logo">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 13h24l-2 22H10L8 13z" fill="#FE6903"/><path d="M14 13v-2a6 6 0 0 1 12 0v2" fill="none" stroke="#FE6903" stroke-width="3"/><circle cx="20" cy="24" r="6" fill="#fff"/><circle cx="20" cy="24" r="3" fill="#272A33"/></svg>
+      <span class="kph-logo-text"><span class="kph-wordmark">Kamera<b>PH</b></span><small>Capture. Create. Inspire</small></span>
+    </div>
+    <p class="kph-footer-note only-mobile">Your one-stop shop for professional gear.</p>
+    <p class="kph-footer-copy">© 2026 KameraPH. All rights reserved.</p>
+  </div>
+</footer>
+<!-- ===== END FOOTER ===== -->
+
+<script src="js/config.js?v=3"></script>
+<script src="js/api.js?v=3"></script>
+<script src="js/kph-ui.js?v=3"></script>
+<script src="js/demo.js?v=3"></script>
+<script src="js/store.js?v=1"></script>
+<script src="js/activity.js?v=1"></script>
+<script>
+(function () {
+  var loading = document.getElementById("loading");
+  var errorBox = document.getElementById("error");
+  var emptyBox = document.getElementById("empty");
+  var listEl = document.getElementById("list");
+
+  function commerceUrl() {
+    var k = window.KPH || {};
+    return String(k.commerceApi || k.cartApi || k.api || "").replace(/\/$/, "");
+  }
+
+  async function commerceFetch(method, path, body) {
+    var token = KPHAuth.getToken();
+    var opts = { method: method, headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token } };
+    if (body) opts.body = JSON.stringify(body);
+    var res = await fetch(commerceUrl() + path, opts);
+    var data = null;
+    try { data = await res.json(); } catch (e) { data = null; }
+    if (!res.ok) {
+      var err = new Error((data && (data.error || data.message)) || ("HTTP " + res.status));
+      err.status = res.status;
+      throw err;
+    }
+    return data;
+  }
+
+  function sellerName(sellerId) {
+    return sellerId === null || sellerId === undefined ? "KameraPH" : ("Seller #" + sellerId);
+  }
+
+  function canCancel(status) {
+    return status === "Pending" || status === "Confirmed";
+  }
+  function canConfirm(status) {
+    return status === "Shipped" || status === "OutForDelivery";
+  }
+
+  function groupByCheckout(orders) {
+    var map = {};
+    orders.forEach(function (o) {
+      if (!map[o.CheckoutKey]) map[o.CheckoutKey] = [];
+      map[o.CheckoutKey].push(o);
+    });
+    return Object.keys(map).map(function (k) { return map[k]; });
+  }
+
+  function render(orders) {
+    loading.hidden = true;
+    if (!orders.length) {
+      emptyBox.hidden = false;
+      return;
+    }
+    listEl.hidden = false;
+    listEl.innerHTML = groupByCheckout(orders).map(function (group) {
+      var total = group.reduce(function (s, o) { return s + Number(o.Total || 0); }, 0);
+      var head = `
+        <div class="order-head">
+          <div>
+            <b>Order ${escapeHtml(group[0].OrderNumber)}</b>
+            <div class="order-meta">${formatDate(group[0].CreatedAt)} · ${group.length} ${group.length === 1 ? "order" : "orders"}</div>
+          </div>
+          <div style="text-align:right"><b>${formatPeso(total)}</b></div>
+        </div>`;
+      var rows = group.map(function (o) {
+        return `
+          <div class="row" style="justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+            <div>
+              <span class="status-pill ${escapeHtml(o.OrderStatus)}">${escapeHtml(o.OrderStatus)}</span>
+              <span class="order-meta">· ${escapeHtml(sellerName(o.SellerID))}</span>
+            </div>
+            <div class="row" style="gap:8px">
+              ${canConfirm(o.OrderStatus) ? `<button class="btn btn-sm" data-confirm="${o.OrderID}">Confirm received</button>` : ""}
+              ${canCancel(o.OrderStatus) ? `<button class="btn btn-sm btn-danger" data-cancel="${o.OrderID}">Cancel</button>` : ""}
+              <a class="btn btn-sm btn-outline" href="purchase-details.html?order=${o.OrderID}">Details</a>
+            </div>
+          </div>`;
+      }).join("");
+      return `<section class="card order-card">${head}${rows}</section>`;
+    }).join("");
+  }
+
+  async function load() {
+    if (!KPHAuth.getToken()) {
+      loading.hidden = true;
+      errorBox.hidden = false;
+      return;
+    }
+    try {
+      var res = await commerceFetch("GET", "/orders.php");
+      render(res.orders || []);
+    } catch (e) {
+      loading.hidden = true;
+      errorBox.hidden = false;
+    }
+  }
+
+  listEl.addEventListener("click", async function (e) {
+    var cancelBtn = e.target.closest("[data-cancel]");
+    var confirmBtn = e.target.closest("[data-confirm]");
+    try {
+      if (cancelBtn) {
+        if (!confirm("Cancel this order?")) return;
+        await commerceFetch("POST", "/orders.php?action=cancel", { OrderID: parseInt(cancelBtn.dataset.cancel, 10) });
+        if (window.KPHActivity) KPHActivity.track("order_cancelled", "order", parseInt(cancelBtn.dataset.cancel, 10), "Cancelled order", { order_id: parseInt(cancelBtn.dataset.cancel, 10) });
+        load();
+      } else if (confirmBtn) {
+        if (!confirm("Confirm that you received this order?")) return;
+        await commerceFetch("POST", "/orders.php?action=confirm-receipt", { OrderID: parseInt(confirmBtn.dataset.confirm, 10) });
+        load();
+      }
+    } catch (err) {
+      alert(err.message || "Action failed.");
+    }
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>
