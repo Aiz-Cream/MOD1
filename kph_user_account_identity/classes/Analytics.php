@@ -14,6 +14,27 @@ class Analytics
 
     public function __construct() { $this->db = Database::getConnection(); }
 
+    private function isAzure(): bool
+    {
+        $config = Database::getConfig();
+        $host = $config['host'] ?? '';
+        $env = $config['env'] ?? getenv('DB_ENV') ?: '';
+        return strpos($host, 'mysql.database.azure.com') !== false || strtolower($env) === 'azure';
+    }
+
+    // Unified Azure DB stores listings in `product_listing` + `product_model` rather than `product`.
+    private function productTable(): string
+    {
+        if ($this->isAzure()) {
+            return "(SELECT pl.ListingID AS ProductID, pl.Title AS ProductName, pl.SellerID,
+                            CASE WHEN pl.Status = 'Live' AND pl.Quantity > 0 THEN 'Active' ELSE pl.Status END AS Status,
+                            pm.CategoryID
+                     FROM `product_listing` pl
+                     LEFT JOIN `product_model` pm ON pm.ModelID = pl.ModelID)";
+        }
+        return "`product`";
+    }
+
     private function q(string $sql, array $p = []): array
     {
         $s = $this->db->prepare($sql);
@@ -24,9 +45,10 @@ class Analytics
     // Optional seller filter: only products owned by that seller.
     private function sellerJoin(?int $sellerId, array &$p): string
     {
-        if ($sellerId === null) return "LEFT JOIN `product` pr ON pr.ProductID = " . self::PID;
+        $pt = $this->productTable();
+        if ($sellerId === null) return "LEFT JOIN $pt pr ON pr.ProductID = " . self::PID;
         $p[] = $sellerId;
-        return "JOIN `product` pr ON pr.ProductID = " . self::PID . " AND pr.SellerID = ?";
+        return "JOIN $pt pr ON pr.ProductID = " . self::PID . " AND pr.SellerID = ?";
     }
 
     // ---------------- ANALYSIS (admin: $sellerId=null, seller: own id) ----------------
@@ -109,9 +131,10 @@ class Analytics
 
     public function recentlyViewed(int $userId, int $limit = 10): array
     {
+        $pt = $this->productTable();
         return $this->q(
             "SELECT p.ProductID AS product_id, p.ProductName, MAX(a.CreatedAt) AS last_viewed
-             FROM `user_activity` a JOIN `product` p ON p.ProductID = " . self::PID . "
+             FROM `user_activity` a JOIN $pt p ON p.ProductID = " . self::PID . "
              WHERE a.UserID=? AND a.EventType='product_viewed'
              GROUP BY p.ProductID, p.ProductName ORDER BY last_viewed DESC LIMIT ?", [$userId, $limit]);
     }
@@ -121,11 +144,12 @@ class Analytics
     // "Customers who viewed this also viewed": co-view counts across users.
     public function alsoViewed(int $productId, int $limit = 6): array
     {
+        $pt = $this->productTable();
         return $this->q(
             "SELECT p.ProductID AS product_id, p.ProductName, COUNT(DISTINCT b.UserID) AS shared_viewers
              FROM `user_activity` a
              JOIN `user_activity` b ON b.UserID=a.UserID AND b.EventType='product_viewed'
-             JOIN `product` p ON p.ProductID = CAST(JSON_UNQUOTE(JSON_EXTRACT(b.Metadata,'$.product_id')) AS UNSIGNED)
+             JOIN $pt p ON p.ProductID = CAST(JSON_UNQUOTE(JSON_EXTRACT(b.Metadata,'$.product_id')) AS UNSIGNED)
              WHERE a.EventType='product_viewed'
                AND CAST(JSON_UNQUOTE(JSON_EXTRACT(a.Metadata,'$.product_id')) AS UNSIGNED) = ?
                AND p.ProductID <> ? AND p.Status='Active'
@@ -138,6 +162,7 @@ class Analytics
     // Already-viewed/-carted products are excluded. Falls back to trending.
     public function recommendForUser(int $userId, int $limit = 6): array
     {
+        $pt = $this->productTable();
         $rows = $this->q(
             "SELECT p.ProductID AS product_id, p.ProductName,
                     SUM(CASE o.EventType WHEN 'cart_added' THEN 3 WHEN 'wishlist_added' THEN 2 ELSE 1 END) AS score
@@ -148,7 +173,7 @@ class Analytics
                     = JSON_UNQUOTE(JSON_EXTRACT(me.Metadata,'$.product_id'))
              JOIN `user_activity` o ON o.UserID = peer.UserID
                   AND o.EventType IN ('product_viewed','cart_added','wishlist_added')
-             JOIN `product` p ON p.ProductID = CAST(JSON_UNQUOTE(JSON_EXTRACT(o.Metadata,'$.product_id')) AS UNSIGNED)
+             JOIN $pt p ON p.ProductID = CAST(JSON_UNQUOTE(JSON_EXTRACT(o.Metadata,'$.product_id')) AS UNSIGNED)
              WHERE me.UserID=? AND me.EventType IN ('product_viewed','cart_added','wishlist_added')
                AND p.Status='Active'
                AND p.ProductID NOT IN (
@@ -209,6 +234,7 @@ class Analytics
     // Admin: which sellers get the attention and the sales.
     public function sellerLeaderboard(int $days = 30, int $limit = 10): array
     {
+        $pt = $this->productTable();
         return $this->q(
             "SELECT pr.SellerID AS seller_id,
                     COUNT(DISTINCT pr.ProductID) AS products,
@@ -216,7 +242,7 @@ class Analytics
                     SUM(a.EventType='cart_added') AS carts,
                     SUM(a.EventType='order_placed') AS orders
              FROM `user_activity` a
-             JOIN `product` pr ON pr.ProductID = " . self::PID . "
+             JOIN $pt pr ON pr.ProductID = " . self::PID . "
              WHERE a.EventType IN ('product_viewed','cart_added','order_placed')
                AND a.CreatedAt >= NOW() - INTERVAL ? DAY
              GROUP BY pr.SellerID ORDER BY views DESC LIMIT ?", [$days, $limit]);
@@ -245,9 +271,10 @@ class Analytics
     // Customer: things I put in my cart but never ordered or removed.
     public function myAbandoned(int $userId, int $limit = 6): array
     {
+        $pt = $this->productTable();
         return $this->q(
             "SELECT p.ProductID AS product_id, p.ProductName, MAX(a.CreatedAt) AS last_added
-             FROM `user_activity` a JOIN `product` p ON p.ProductID = " . self::PID . "
+             FROM `user_activity` a JOIN $pt p ON p.ProductID = " . self::PID . "
              WHERE a.UserID=? AND a.EventType='cart_added'
                AND NOT EXISTS (SELECT 1 FROM `user_activity` o WHERE o.UserID=a.UserID
                                AND o.CreatedAt > a.CreatedAt AND o.EventType='order_placed')
@@ -271,12 +298,13 @@ class Analytics
     {
         $p = [];
         $j = $this->sellerJoin($sellerId, $p);
+        $catCol = $this->isAzure() ? 'c.CategoryName' : 'c.Name';
         $where = "";
         if ($userId !== null) { $where = " AND a.UserID = ?"; }
         $p[] = $days;
         if ($userId !== null) $p[] = $userId;
         return $this->q(
-            "SELECT a.UserID, SUBSTRING_INDEX(pr.ProductName,' ',1) AS brand, c.Name AS category,
+            "SELECT a.UserID, SUBSTRING_INDEX(pr.ProductName,' ',1) AS brand, $catCol AS category,
                     SUM(a.EventType='product_viewed') AS views,
                     SUM(a.EventType='wishlist_added') AS wishlists,
                     SUM(a.EventType='cart_added') AS carts,
